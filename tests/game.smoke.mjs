@@ -115,18 +115,21 @@ try {
     await wait(500);                                  // ~3 dots
     assert.ok((await litPixels(ana)) > 50, "no dots drawn");
     assert.match(await text(ana, "#dots-line"), /\d+ \/ 15 dots.*pts/);
-    await guess(ben, "underwater basket weaving");
+    const { category } = await truth();
+    // A wrong guess for sure: another category's name (a made-up phrase can
+    // be read as a typo of a synonym, e.g. "weaving" as "waving").
+    const wrong = category === "walk" ? "run" : "walk";
+    await guess(ben, wrong);
     await ben.waitForFunction(() => /isn't it/.test(document.querySelector("#guess-status").textContent));
     assert.equal(await ben.$eval("#guess", (e) => e.disabled), true, "Ben can guess again");
     await ana.waitForFunction(() => document.querySelector("#scores li:not(.me)")?.classList.contains("out"));
     await shot(ben, "2-wrong-guess");
-    const { category } = await truth();
     await guess(ana, category);
     await until((t) => t.status === "answer", "the answer");
     await ana.waitForFunction(() => !document.querySelector("#answer").hidden);
     assert.equal((await text(ana, "#answer-category")).toLowerCase(), category);
     assert.match(await text(ana, "#answer-result"), /Ana got it: \+\d+/);
-    await ben.waitForFunction(() => /underwater basket weaving ✗/.test(document.querySelector("#answer-guesses").textContent));
+    await ben.waitForFunction((w) => document.querySelector("#answer-guesses").textContent.includes(`${w} ✗`), {}, wrong);
     await shot(ana, "3-answer");
   });
 
