@@ -13,6 +13,7 @@
     "game": "python3 server/skugga_server.py",
     "serve": "python3 -m http.server 8000 --bind 127.0.0.1",
     "smoke": "node tests/viewer.smoke.mjs",
+    "smoke:game": "node tests/game.smoke.mjs",
     "demo": "node tools/make-demo.mjs"
   },
   "devDependencies": {
