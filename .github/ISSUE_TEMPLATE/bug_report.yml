@@ -1,0 +1,30 @@
+name: Bug report
+description: Something in the viewer, game or pipeline doesn't work
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: A viewer URL with settings (e.g. `/web/?noise=30#13_17`) helps a lot.
+      placeholder: |
+        1. Open ...
+        2. Press ...
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and OS
+      placeholder: e.g. Firefox 140 on Linux
+  - type: textarea
+    id: logs
+    attributes:
+      label: Console errors or logs
+      description: Please remove anything personal (usernames, paths, hostnames) before pasting.
+      render: text

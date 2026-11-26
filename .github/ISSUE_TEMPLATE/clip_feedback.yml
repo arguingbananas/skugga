@@ -1,0 +1,29 @@
+name: Clip feedback
+description: A clip is ambiguous, broken, mislabeled, or especially good
+labels: [clips]
+body:
+  - type: input
+    id: clip
+    attributes:
+      label: Clip id
+      description: Shown in the viewer, e.g. `13_17` (or the viewer URL).
+    validations:
+      required: true
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What's the issue?
+      options:
+        - Ambiguous (looks like another category)
+        - Wrong category
+        - Broken or glitchy motion
+        - Too long or needs trimming
+        - Great clip, keep it
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: Details
+      description: What did you see, and what category would you have guessed?

@@ -99,6 +99,11 @@ to CMU's terms: free to use, including in commercial products, but not to be
 resold directly, even in altered form. The MIT license below covers this
 project's own code and documentation, not the CMU data.
 
+## Contributing
+
+Clip feedback, bug reports and ideas are welcome; see [CONTRIBUTING.md](CONTRIBUTING.md)
+and the [code of conduct](CODE_OF_CONDUCT.md).
+
 ## Security
 
 Please report vulnerabilities privately; see [SECURITY.md](SECURITY.md).
