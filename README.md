@@ -83,6 +83,7 @@ npm run check        # syntax-check the JS
 npm run lint         # ESLint, pyflakes and actionlint
 npm test             # unit tests: game rules, game, and the server's HTTP API (Python)
 npm run smoke        # drive the viewer in headless Chromium; add a folder to save screenshots
+npm run smoke:game   # three phones play a short game against the real server (~15 s)
 npm run demo         # re-render docs/demo.webp (needs img2webp: apt install webp)
 ```
 

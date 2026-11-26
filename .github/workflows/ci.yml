@@ -37,3 +37,5 @@ jobs:
         run: npm run lint
       - name: Viewer smoke test (headless Chrome)
         run: npm run smoke
+      - name: Game smoke test (three phones in headless Chrome)
+        run: npm run smoke:game
