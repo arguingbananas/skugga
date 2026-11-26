@@ -4,7 +4,7 @@
 **biological motion perception**: the human ability to recognize an action from
 just a handful of moving dots placed on the joints (Johansson, 1973).
 
-![A point-light walker emerging from a cloud of moving distractor dots as more of its joints are revealed, until the answer "walk" appears](docs/demo.webp)
+![A single moving dot on black, joined by one more joint at a time until a full point-light walker appears and the answer "walk" is shown](docs/demo.webp)
 
 > [!NOTE]
 > **Made with AI.** This project is being built with

@@ -1,4 +1,4 @@
-// Render the README demo animation: a point-light figure emerging from noise.
+// Render the README demo animation: a point-light walker revealed one dot at a time.
 //
 //   npm run demo                 # writes docs/demo.webp
 //   npm run demo -- frames/      # also keep the PNG frames there, for checking
@@ -17,9 +17,9 @@ import { ROOT, chromePath, serve } from "./static-server.mjs";
 const CLIP = "12_01";        // walk: the classic Johansson display
 const W = 480, H = 320;      // output size in pixels
 const FPS = 25;
-const SECONDS = 9;
-const NOISE = 45;            // distractor dots at the start
-const SEED = 7;              // fixed, so the demo is reproducible
+const SECONDS = 9.5;
+const FIRST_DOT_HOLD = 1.0;  // seconds showing a single dot before adding more
+const DOT_EVERY = 0.42;      // seconds between added dots
 const AZIMUTH = 30;          // slightly angled, so left and right limbs separate
 const OUT = join(ROOT, "docs", "demo.webp");
 const KEEP = process.argv[2] ? resolve(process.argv[2]) : null;
@@ -35,10 +35,9 @@ try {
 
   const frames = await page.evaluate(async (cfg) => {
     const { loadClip } = await import("./js/clips.js");
-    const { REVEAL_ORDER, bodyStats, makeCamera, makeNoise, scene } = await import("./js/display.js");
+    const { REVEAL_ORDER, bodyStats, makeCamera, scene } = await import("./js/display.js");
     const clip = await loadClip(cfg.CLIP);
     const stats = bodyStats(clip);
-    const allNoise = makeNoise(clip, stats, cfg.NOISE, cfg.SEED);
     const camera = makeCamera(clip, stats, { width: cfg.W, height: cfg.H, azimuth: cfg.AZIMUTH, inPlace: true, inverted: false });
 
     const canvas = document.createElement("canvas");
@@ -49,16 +48,16 @@ try {
     const scratch = {};
     const out = [];
 
-    // Timeline: 1 s hold at 2 dots + full noise, reveal over 5.5 s, then hold
-    // the complete figure with the answer shown.
-    const revealStart = 1, revealEnd = 6.5;
+    // Timeline: start with as little as possible (one dot), add one joint at a
+    // time, and show the answer once the whole figure is there. No noise: the
+    // demo shows the README's "starts with as little information as possible".
+    const n = REVEAL_ORDER.length;
+    const revealEnd = cfg.FIRST_DOT_HOLD + (n - 1) * cfg.DOT_EVERY;
     for (let f = 0; f < total; f++) {
       const t = f / cfg.FPS;
-      const p = Math.min(1, Math.max(0, (t - revealStart) / (revealEnd - revealStart)));
-      const ease = p * p * (3 - 2 * p);
-      const dots = Math.round(2 + ease * (REVEAL_ORDER.length - 2));
-      const noise = allNoise.slice(0, Math.round(cfg.NOISE * (1 - ease)));
-      const pts = scene(clip, stats, t, { visible: new Set(REVEAL_ORDER.slice(0, dots)), noise, inPlace: true }, scratch);
+      const dots = Math.min(n, 1 + Math.max(0, Math.floor((t - cfg.FIRST_DOT_HOLD) / cfg.DOT_EVERY) + 1));
+      const p = (dots - 1) / (n - 1);
+      const pts = scene(clip, stats, t, { visible: new Set(REVEAL_ORDER.slice(0, dots)), noise: [], inPlace: true }, scratch);
       const xy = camera(pts);
 
       ctx.fillStyle = "#000";
@@ -87,6 +86,12 @@ try {
       }
       ctx.globalAlpha = 1;
 
+      // How much of the figure is showing.
+      ctx.font = "14px system-ui, sans-serif";
+      ctx.textBaseline = "bottom";
+      ctx.fillStyle = "#9097a3";
+      ctx.fillText(`${dots} / ${n} dots`, 18, cfg.H - 14);
+
       // Reveal progress bar along the bottom.
       ctx.fillStyle = "#222";
       ctx.fillRect(0, cfg.H - 4, cfg.W, 4);
@@ -96,7 +101,7 @@ try {
       out.push(canvas.toDataURL("image/png"));
     }
     return out;
-  }, { CLIP, W, H, FPS, SECONDS, NOISE, SEED, AZIMUTH });
+  }, { CLIP, W, H, FPS, SECONDS, FIRST_DOT_HOLD, DOT_EVERY, AZIMUTH });
 
   const files = frames.map((url, i) => {
     const file = join(tmp, `f${String(i).padStart(4, "0")}.png`);
