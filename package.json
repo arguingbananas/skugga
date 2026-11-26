@@ -10,6 +10,6 @@
     "demo": "node tools/make-demo.mjs"
   },
   "devDependencies": {
-    "puppeteer-core": "^23.11.1"
+    "puppeteer-core": "^25.19.0"
   }
 }
