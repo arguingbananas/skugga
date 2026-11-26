@@ -191,6 +191,38 @@ class TestRound(GameTest):
         self.assertTrue(all(p.guess is None for p in self.g.players))
 
 
+class TestDealing(GameTest):
+    """Rounds are dealt from decks, so games don't repeat each other."""
+
+    def games(self, n):
+        plans = []
+        for _ in range(n):
+            self.g._plan_game()
+            plans.append(list(self.g.plan))
+        return plans
+
+    def test_every_category_before_any_repeats(self):
+        all_categories = {c.category for c in CLIPS}
+        for seed in range(20):
+            self.g = Game(CLIPS, CATEGORIES, rng=random.Random(seed))
+            g1, g2 = self.games(2)
+            for game in (g1, g2):
+                self.assertEqual(len({c.category for c in game}), 10)   # no repeats in a game
+            # 20 rounds over 19 categories: every one of them, before any twice
+            first_19 = [c.category for c in g1 + g2][:len(all_categories)]
+            self.assertEqual(set(first_19), all_categories)
+
+    def test_every_clip_of_a_category_before_any_repeats(self):
+        dealt: dict[str, list[str]] = {}
+        for game in self.games(40):
+            for clip in game:
+                dealt.setdefault(clip.category, []).append(clip.id)
+        for category, ids in dealt.items():
+            n = len({c.id for c in CLIPS if c.category == category})
+            for start in range(0, len(ids) - n + 1, n):
+                self.assertEqual(len(set(ids[start:start + n])), n, category)
+
+
 class TestWholeGame(GameTest):
     def test_ten_rounds_distinct_categories_then_final_and_again(self):
         a, b = self.started(2)

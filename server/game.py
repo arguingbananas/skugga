@@ -151,6 +151,14 @@ class Game:
         self.status = "lobby"
         self.round: Round | None = None
         self.plan: list[Clip] = []
+        # Decks dealt from across games, so nothing repeats until everything
+        # else has come up: categories not yet played in this cycle, and per
+        # category its clips not yet played.
+        self.by_category: dict[str, list[Clip]] = {}
+        for clip in clips:
+            self.by_category.setdefault(clip.category, []).append(clip)
+        self.category_deck: list[str] = []
+        self.clip_decks: dict[str, list[Clip]] = {}
 
     # --- helpers
 
@@ -183,11 +191,26 @@ class Game:
             p.last_seen = now
 
     def _plan_game(self) -> None:
-        by_category: dict[str, list[Clip]] = {}
-        for clip in self.clips:
-            by_category.setdefault(clip.category, []).append(clip)
-        categories = self.rng.sample(sorted(by_category), self.total_rounds)
-        self.plan = [self.rng.choice(by_category[c]) for c in categories]
+        """Deal this game's rounds: categories from a shuffled deck, so every
+        category comes up once before any comes up again (across games, for
+        as long as the server runs), and a game never repeats one; and for
+        each, the next clip from that category's own shuffled deck."""
+        categories: list[str] = []
+        while len(categories) < self.total_rounds:
+            if not self.category_deck:
+                fresh = [c for c in sorted(self.by_category) if c not in categories]
+                self.rng.shuffle(fresh)
+                self.category_deck = fresh
+            categories.append(self.category_deck.pop())
+        self.plan = [self._next_clip(c) for c in categories]
+
+    def _next_clip(self, category: str) -> Clip:
+        deck = self.clip_decks.get(category)
+        if not deck:
+            deck = list(self.by_category[category])
+            self.rng.shuffle(deck)
+            self.clip_decks[category] = deck
+        return deck.pop()
 
     def _start_round(self, number: int, now: int) -> None:
         clip = self.plan[number - 1]
