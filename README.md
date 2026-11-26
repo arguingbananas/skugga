@@ -35,6 +35,31 @@ Game mechanics are still being designed.
 | `pipeline/clips.toml` | Which CMU trials become clips, and their categories |
 | `pipeline/cmu_index.json` | Index of all 2,379 CMU trials with descriptions, for choosing clips |
 | `pipeline/*.py` | The data pipeline (Python 3.11+, standard library only) |
+| `web/` | Clip viewer (static site; `web/js/display.js` is the reusable display model) |
+| `tests/` | Headless-browser smoke test for the viewer |
+
+## Viewer
+
+`web/` is a clip viewer for trying out reveal settings: how many dots,
+scrambled-dot noise, upside down, camera angle, speed, and an auto-reveal
+that adds dots and removes noise over time. It's plain JavaScript modules
+with no build step. To run it:
+
+```sh
+npm run serve        # then open http://127.0.0.1:8000/web/
+```
+
+Starting settings can go in the URL, e.g.
+`/web/?dots=5&noise=30&inv=1&hide=1#13_17` (see `applyQuery` in
+`web/js/viewer.js`).
+
+Tests (Node 18+ and Chromium):
+
+```sh
+npm install          # dev dependency: puppeteer-core (uses your system Chromium)
+npm run check        # syntax-check the JS
+npm run smoke        # drive the viewer in headless Chromium; add a folder to save screenshots
+```
 
 ## Data pipeline
 

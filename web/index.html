@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Skugga Viewer</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6'/%3E%3Cg fill='%23fff'%3E%3Ccircle cx='16' cy='6' r='2.2'/%3E%3Ccircle cx='11' cy='12' r='2'/%3E%3Ccircle cx='21' cy='12' r='2'/%3E%3Ccircle cx='16' cy='17' r='2'/%3E%3Ccircle cx='12' cy='26' r='2'/%3E%3Ccircle cx='21' cy='25' r='2'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <main class="layout">
+    <section class="stage" aria-label="Point-light display">
+      <canvas id="canvas"></canvas>
+      <div class="answer" id="answer" aria-live="polite">
+        <span class="answer-cat" id="answer-cat"></span>
+        <span class="answer-desc" id="answer-desc"></span>
+      </div>
+      <div class="reveal-bar" id="reveal-bar" hidden><div id="reveal-fill"></div></div>
+      <p class="status" id="status"></p>
+    </section>
+
+    <aside class="panel">
+      <header class="panel-head">
+        <h1>Skugga <span>viewer</span></h1>
+      </header>
+
+      <fieldset>
+        <legend>Clip</legend>
+        <select id="clip" aria-label="Clip"></select>
+        <div class="row buttons">
+          <button id="prev" title="Previous clip (←)">‹ Prev</button>
+          <button id="random" title="Random clip, answer hidden (R)">Random</button>
+          <button id="next" title="Next clip (→)">Next ›</button>
+        </div>
+        <label class="check"><input type="checkbox" id="hide"> Hide answer <kbd>H</kbd></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Playback</legend>
+        <div class="row">
+          <button id="play" class="wide" title="Play / pause (Space)">Pause</button>
+        </div>
+        <label>Time <output id="time-out"></output>
+          <input type="range" id="time" min="0" max="1000" value="0"></label>
+        <label>Speed <output id="speed-out"></output>
+          <input type="range" id="speed" min="0.1" max="2" step="0.05" value="1"></label>
+      </fieldset>
+
+      <fieldset>
+        <legend>Reveal</legend>
+        <label>Dots <output id="dots-out"></output>
+          <input type="range" id="dots" min="0" max="15" value="15"></label>
+        <details>
+          <summary>Pick dots</summary>
+          <div class="markers" id="markers"></div>
+        </details>
+        <label>Noise dots <output id="noise-out"></output>
+          <input type="range" id="noise" min="0" max="80" value="0"></label>
+        <div class="row buttons">
+          <button id="reseed" title="New noise pattern">New noise</button>
+        </div>
+        <label class="check"><input type="checkbox" id="inverted"> Upside down <kbd>I</kbd></label>
+        <label>Auto-reveal over <output id="reveal-out"></output>
+          <input type="range" id="reveal-secs" min="5" max="60" step="5" value="20"></label>
+        <div class="row">
+          <button id="reveal" class="wide" title="Start from the current noise with 2 dots; add dots and remove noise over time (V)">Start auto-reveal</button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>View</legend>
+        <label>Angle <output id="azimuth-out"></output>
+          <input type="range" id="azimuth" min="-180" max="180" step="5" value="0"></label>
+        <label class="check"><input type="checkbox" id="inplace" checked> Keep figure in place (treadmill)</label>
+        <label>Dot size <output id="size-out"></output>
+          <input type="range" id="size" min="1.5" max="10" step="0.5" value="4.5"></label>
+      </fieldset>
+
+      <p class="keys">Keys: <kbd>Space</kbd> play · <kbd>←</kbd><kbd>→</kbd> clip · <kbd>R</kbd> random · <kbd>V</kbd> auto-reveal</p>
+      <p class="credit">Motion data: <a href="http://mocap.cs.cmu.edu/">CMU Graphics Lab Motion Capture Database</a>.</p>
+    </aside>
+  </main>
+  <script type="module" src="js/viewer.js"></script>
+</body>
+</html>
