@@ -40,11 +40,24 @@ itself is being built; the clip viewer below works today.
 | `pipeline/clips.toml` | Which CMU trials become clips, and their categories |
 | `pipeline/cmu_index.json` | Index of all 2,379 CMU trials with descriptions, for choosing clips |
 | `pipeline/*.py` | The data pipeline (Python 3.11+, standard library only) |
-| `server/` | The game server (being built); `server/rules.py` has the game rules |
+| `server/` | The game server: `rules.py` (guessing, timing, scoring), `game.py` (players and rounds), `skugga_server.py` (HTTP) |
 | `web/` | Clip viewer (static site; `web/js/display.js` is the reusable display model) |
-| `tests/` | Unit tests for the game rules, and a headless-browser smoke test for the viewer |
+| `tests/` | Unit tests for the rules, game and server, and a headless-browser smoke test for the viewer |
 | `tools/` | Local static server, the README demo renderer, and the actionlint installer |
 | `docs/` | The game specification, and README media |
+
+## Game server
+
+```sh
+npm run game         # or: python3 server/skugga_server.py [port]   (default 8765)
+```
+
+It prints an address to open on each phone (same Wi-Fi). The phone page is
+still being built, so for now only the API works. The server assumes a
+trusted home network: no HTTPS, no password. It gives each player a token so
+no phone can act as another, accepts only small JSON requests, and refuses
+requests addressed to other host names. See
+[docs/game-spec.md](docs/game-spec.md), section 6.
 
 ## Viewer
 
@@ -68,7 +81,7 @@ actionlint (`bash tools/install-actionlint.sh`)):
 npm install          # dev dependency: puppeteer-core (uses your system Chromium)
 npm run check        # syntax-check the JS
 npm run lint         # ESLint, pyflakes and actionlint
-npm test             # unit tests for the game rules (Python)
+npm test             # unit tests: game rules, game, and the server's HTTP API (Python)
 npm run smoke        # drive the viewer in headless Chromium; add a folder to save screenshots
 npm run demo         # re-render docs/demo.webp (needs img2webp: apt install webp)
 ```
