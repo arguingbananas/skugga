@@ -1,0 +1,29 @@
+# Secrets / local config
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets/
+.claude/settings.local.json
+
+# Dependencies & build output
+node_modules/
+dist/
+build/
+.cache/
+.vite/
+
+# Raw mocap data (large; fetch via script instead of committing)
+data/raw/
+*.c3d
+*.amc
+*.asf
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.swp
+*.log
