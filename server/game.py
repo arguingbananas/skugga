@@ -354,6 +354,8 @@ class Game:
                 "t0": r.t0,
                 "dotsShown": rules.TOTAL_DOTS if show_answer else rules.dots_shown(now, r.t0),
                 "dotIntervalMs": rules.DOT_INTERVAL_MS,
+                "startDots": rules.START_DOTS,
+                "totalDots": rules.TOTAL_DOTS,
                 "fps": r.view.fps,
                 "frameCount": r.view.frame_count,
                 "bounds": {"minX": r.view.min_x, "maxX": r.view.max_x, "maxY": r.view.max_y},

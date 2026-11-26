@@ -17,8 +17,8 @@ just a handful of moving dots placed on the joints (Johansson, 1973).
 ## Concept
 
 Each round plays a motion-capture clip as a point-light display. It starts with
-as little information as possible, a single moving dot, and more of the
-figure's joints appear over about 20 seconds. The first player to name the
+very little information, five moving dots, and more of the figure's joints
+appear over about 20 seconds, up to all 31 joints of the CMU skeleton. The first player to name the
 action scores, and the earlier they get it, the more points they score.
 
 Everyone plays on their own phone: one player runs a small server on a computer,
@@ -101,8 +101,9 @@ python3 pipeline/preview.py sheet.png 02_01 09_01   # contact sheet for eyeballi
 
 `build.py` downloads the original ASF/AMC files from the CMU site into
 `data/raw/` (gitignored, cached, one request per second), runs forward
-kinematics, and writes 15 markers per frame: head, neck, shoulders, elbows,
-wrists, pelvis, hips, knees and ankles. Clips are resampled to 30 fps,
+kinematics, and writes 31 markers per frame: every joint of the CMU skeleton
+(pelvis, hips, knees, ankles, feet, toes, spine, neck, head, shoulders, elbows,
+wrists, hands, knuckles, fingers and thumbs). Clips are resampled to 30 fps,
 capped at 10 seconds and stored in millimetres. Each clip is normalized so the
 figure starts at the origin facing +x (x forward, y up, z to the figure's
 left), with the floor at y = 0. The build fails a clip if any bone changes

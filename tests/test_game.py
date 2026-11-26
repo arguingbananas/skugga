@@ -134,15 +134,15 @@ class TestRound(GameTest):
         self.g.start(self.now, a)
         self.assertRefused("round_not_open", self.g.guess, self.now, a, self.g.round.id, "walk")
         self.advance(COUNTDOWN_MS)
-        self.assertEqual(self.g.state(self.now, a)["round"]["dotsShown"], 1)
+        self.assertEqual(self.g.state(self.now, a)["round"]["dotsShown"], rules.START_DOTS)
 
     def test_correct_guess_scores_by_dots(self):
         a, b, _ = self.started()
-        self.advance(4 * INTERVAL)  # 5 dots showing
+        self.advance(4 * INTERVAL)  # 9 dots showing
         self.assertTrue(self.guess(b, self.answer()))
         self.assertEqual(self.g.status, "answer")
-        self.assertEqual(self.g.round.points, 11)
-        self.assertEqual(self.g.by_token[b].score, 11)
+        self.assertEqual(self.g.round.points, 23)
+        self.assertEqual(self.g.by_token[b].score, 23)
         self.assertEqual(self.g.round.end_reason, "answered")
 
     def test_synonym_counts(self):
@@ -198,13 +198,13 @@ class TestWholeGame(GameTest):
         for n in range(1, 11):
             self.assertEqual((self.g.round.number, self.g.status), (n, "reveal"))
             seen.append(self.answer())
-            self.guess(a, self.answer())          # 15 points each, at 1 dot
+            self.guess(a, self.answer())          # 27 points each, at 5 dots
             self.advance(ANSWER_MS)
             if n < 10:
                 self.advance(COUNTDOWN_MS)
         self.assertEqual(self.g.status, "final")
         self.assertEqual(len(set(seen)), 10)
-        self.assertEqual(self.g.by_token[a].score, 150)
+        self.assertEqual(self.g.by_token[a].score, 270)
         self.assertRefused("not_leader", self.g.again, self.now, b)
         self.g.again(self.now, a)
         self.assertEqual((self.g.status, self.g.by_token[a].score), ("countdown", 0))
@@ -286,16 +286,17 @@ class TestSecrecy(GameTest):
     def test_tracks_only_once_revealed(self):
         a, *_ = self.started()
         rid = self.g.round.id
-        self.assertEqual(len(self.g.track(self.now, a, rid, 0)), 2 * self.g.round.view.frame_count)
-        self.assertRefused("not_revealed_yet", self.g.track, self.now, a, rid, 1)
+        first = rules.START_DOTS                     # dots 0..4 show from the start
+        self.assertEqual(len(self.g.track(self.now, a, rid, first - 1)), 2 * self.g.round.view.frame_count)
+        self.assertRefused("not_revealed_yet", self.g.track, self.now, a, rid, first)
         self.advance(INTERVAL)
-        self.g.track(self.now, a, rid, 1)
-        self.assertRefused("not_revealed_yet", self.g.track, self.now, a, rid, 2)
+        self.g.track(self.now, a, rid, first)
+        self.assertRefused("not_revealed_yet", self.g.track, self.now, a, rid, first + 1)
         self.assertRefused("bad_token", self.g.track, self.now, "x", rid, 0)
         self.assertRefused("no_such_round", self.g.track, self.now, a, "0" * 16, 0)
-        self.assertRefused("no_such_marker", self.g.track, self.now, a, rid, 15)
+        self.assertRefused("no_such_marker", self.g.track, self.now, a, rid, rules.TOTAL_DOTS)
         self.guess(a, self.answer())                 # answer phase: all dots
-        self.g.track(self.now, a, rid, 14)
+        self.g.track(self.now, a, rid, rules.TOTAL_DOTS - 1)
 
     def test_no_tracks_during_countdown(self):
         a = self.join("Ana"); self.join("Ben")
@@ -308,7 +309,7 @@ class TestRoundView(unittest.TestCase):
         clip = next(c for c in CLIPS if c.id == "02_01")
         v1 = make_round_view(clip, random.Random(1))
         v2 = make_round_view(clip, random.Random(2))
-        self.assertEqual(len(v1.tracks), 15)
+        self.assertEqual(len(v1.tracks), 31)
         self.assertEqual(v1.frame_count, len(clip.frames))
         self.assertNotEqual(v1.tracks, v2.tracks)
         pelvis = rules.REVEAL_ORDER.index("pelvis")

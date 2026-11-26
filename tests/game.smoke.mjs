@@ -114,7 +114,7 @@ try {
     await until((t) => t.status === "reveal", "round 1");
     await wait(500);                                  // ~3 dots
     assert.ok((await litPixels(ana)) > 50, "no dots drawn");
-    assert.match(await text(ana, "#dots-line"), /\d+ \/ 15 dots.*pts/);
+    assert.match(await text(ana, "#dots-line"), /\d+ \/ 31 dots.*pts/);
     const { category } = await truth();
     // A wrong guess for sure: another category's name (a made-up phrase can
     // be read as a typo of a synonym, e.g. "weaving" as "waving").

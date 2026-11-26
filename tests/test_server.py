@@ -148,18 +148,19 @@ class TestGameOverHttp(ServerTest):
 
         _, st, _ = self.request("GET", f"/state?token={a['token']}")
         rnd = st["round"]
-        self.assertEqual((st["status"], rnd["dotsShown"]), ("reveal", 1))
+        self.assertEqual((st["status"], rnd["dotsShown"]), ("reveal", 5))
+        self.assertEqual((rnd["startDots"], rnd["totalDots"]), (5, 31))
         self.assertNotIn("answer", st)
         game_round = self.server.game.round
         raw_state = json.dumps(st)
         self.assertNotIn(game_round.clip.id, raw_state)
         self.assertNotIn(game_round.clip.description, raw_state)
 
-        # dot 0 is revealed, dot 1 isn't yet
-        status, track, _ = self.request("GET", f"/round/{rnd['id']}/marker/0?token={a['token']}")
-        self.assertEqual((status, track["marker"]), (200, 0))
+        # dots 0-4 are revealed, dot 5 isn't yet
+        status, track, _ = self.request("GET", f"/round/{rnd['id']}/marker/4?token={a['token']}")
+        self.assertEqual((status, track["marker"]), (200, 4))
         self.assertEqual(len(track["track"]), 2 * rnd["frameCount"])
-        self.assertEqual(self.request("GET", f"/round/{rnd['id']}/marker/1?token={a['token']}")[0], 403)
+        self.assertEqual(self.request("GET", f"/round/{rnd['id']}/marker/5?token={a['token']}")[0], 403)
         self.assertEqual(self.request("GET", f"/round/{rnd['id']}/marker/0?token=forged")[0], 403)
         self.assertEqual(self.request("GET", f"/round/{rnd['id']}/marker/0")[0], 403)
 
@@ -172,7 +173,7 @@ class TestGameOverHttp(ServerTest):
         _, st, _ = self.request("GET", f"/state?token={a['token']}")
         self.assertEqual(st["status"], "answer")
         self.assertEqual((st["answer"]["category"], st["answer"]["winner"], st["answer"]["points"]),
-                         (answer, "Ben", 15))
+                         (answer, "Ben", 27))
 
     def test_reconnect_returns_same_player(self):
         _, a, _ = self.post("/join", {"name": "Ana"})

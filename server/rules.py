@@ -13,38 +13,46 @@ from pathlib import Path
 
 # --- Reveal timing and scoring (spec section 3) ---------------------------
 
-TOTAL_DOTS = 15
-DOT_INTERVAL_MS = 1300
+START_DOTS = 5
+TOTAL_DOTS = 31
+DOT_INTERVAL_MS = 700
 GRACE_MS = 5000
 
-# Dots are added in this order, least telling first. Must match the viewer's
+# Dots are added in this order, least telling first: the first START_DOTS
+# show from the start, then the rest of the main joints with the spine and
+# neck mixed in, and the feet and hands last. Must match the viewer's
 # REVEAL_ORDER in web/js/display.js (a test checks this).
 REVEAL_ORDER = (
-    "lankle", "rwrist", "head", "rknee", "lelbow", "pelvis", "rankle", "lwrist",
-    "lknee", "relbow", "neck", "rhip", "lshoulder", "lhip", "rshoulder",
+    "lankle", "rwrist", "head", "rknee", "lelbow",
+    "lowerback", "pelvis", "upperneck", "rankle", "lwrist",
+    "upperback", "lknee", "relbow", "lowerneck", "neck",
+    "rhip", "lshoulder", "lhip", "rshoulder", "lfoot",
+    "rfoot", "rhand", "lhand", "ltoes", "rtoes",
+    "rknuckles", "lknuckles", "rfingers", "lfingers", "rthumb", "lthumb",
 )
 
 
 def dots_shown(now_ms: int, t0_ms: int) -> int:
     """How many dots are showing at server time now_ms, for a reveal that
-    started at t0_ms: 0 before the start, then 1, rising by one every
-    DOT_INTERVAL_MS, up to TOTAL_DOTS."""
+    started at t0_ms: 0 before the start, then START_DOTS, rising by one
+    every DOT_INTERVAL_MS, up to TOTAL_DOTS."""
     if now_ms < t0_ms:
         return 0
-    return min(TOTAL_DOTS, 1 + (now_ms - t0_ms) // DOT_INTERVAL_MS)
+    return min(TOTAL_DOTS, START_DOTS + (now_ms - t0_ms) // DOT_INTERVAL_MS)
 
 
 def points_for(dots: int) -> int:
-    """Points for the first correct guess with `dots` showing: 16 minus the
-    dots, so 15 at one dot and 1 at the full figure. 0 if nothing shows."""
+    """Points for the first correct guess with `dots` showing: one point less
+    for every dot, from TOTAL_DOTS + 1 - START_DOTS (27) at the start down
+    to 1 at the full figure. 0 if nothing shows."""
     if dots <= 0:
         return 0
-    return TOTAL_DOTS + 1 - min(dots, TOTAL_DOTS)
+    return TOTAL_DOTS + 1 - min(max(dots, START_DOTS), TOTAL_DOTS)
 
 
 def full_figure_at(t0_ms: int) -> int:
     """Server time at which the last dot appears."""
-    return t0_ms + (TOTAL_DOTS - 1) * DOT_INTERVAL_MS
+    return t0_ms + (TOTAL_DOTS - START_DOTS) * DOT_INTERVAL_MS
 
 
 def round_deadline(t0_ms: int) -> int:

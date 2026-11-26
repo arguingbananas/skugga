@@ -8,7 +8,7 @@ Reads pipeline/clips.toml, downloads the needed ASF/AMC files from
 mocap.cs.cmu.edu into data/raw/cmu/ (cached, gitignored), runs forward
 kinematics and writes:
 
-    data/clips/<id>.json   one clip: 15 markers per frame, in millimetres
+    data/clips/<id>.json   one clip: 31 markers per frame, in millimetres
     data/clips/index.json  list of all built clips
 
 Each clip is normalised so that, at its first frame, the pelvis is at x=z=0
@@ -38,23 +38,26 @@ CATEGORIES = ROOT / "data" / "categories.json"
 BASE = "http://mocap.cs.cmu.edu/subjects/{s:02d}/{name}"
 USER_AGENT = "skugga-pipeline/0.1 (+https://github.com/arguingbananas/skugga)"
 
-# Point-light markers: name -> bone end points to average.
+# Point-light markers: name -> bone end points to average. All 31 joints of
+# the CMU skeleton: the root (pelvis) and the far end of each of its 30 bones.
 MARKERS: dict[str, tuple[str, ...]] = {
-    "head": ("upperneck", "head"),
-    "neck": ("thorax",),
-    "lshoulder": ("lclavicle",),
-    "rshoulder": ("rclavicle",),
-    "lelbow": ("lhumerus",),
-    "relbow": ("rhumerus",),
-    "lwrist": ("lradius",),
-    "rwrist": ("rradius",),
     "pelvis": ("root",),
-    "lhip": ("lhipjoint",),
-    "rhip": ("rhipjoint",),
-    "lknee": ("lfemur",),
-    "rknee": ("rfemur",),
-    "lankle": ("ltibia",),
-    "rankle": ("rtibia",),
+    "lhip": ("lhipjoint",), "rhip": ("rhipjoint",),
+    "lknee": ("lfemur",), "rknee": ("rfemur",),
+    "lankle": ("ltibia",), "rankle": ("rtibia",),
+    "lfoot": ("lfoot",), "rfoot": ("rfoot",),        # ball of the foot
+    "ltoes": ("ltoes",), "rtoes": ("rtoes",),
+    "lowerback": ("lowerback",), "upperback": ("upperback",),
+    "neck": ("thorax",),                              # base of the neck
+    "lowerneck": ("lowerneck",), "upperneck": ("upperneck",),
+    "head": ("head",),                                # top of the head
+    "lshoulder": ("lclavicle",), "rshoulder": ("rclavicle",),
+    "lelbow": ("lhumerus",), "relbow": ("rhumerus",),
+    "lwrist": ("lradius",), "rwrist": ("rradius",),
+    "lhand": ("lwrist",), "rhand": ("rwrist",),      # middle of the hand
+    "lknuckles": ("lhand",), "rknuckles": ("rhand",),
+    "lfingers": ("lfingers",), "rfingers": ("rfingers",),
+    "lthumb": ("lthumb",), "rthumb": ("rthumb",),
 }
 NAMES = list(MARKERS)
 # Pairs of markers on one rigid bone, used to check for broken data.
