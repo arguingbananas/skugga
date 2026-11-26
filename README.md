@@ -4,6 +4,8 @@
 **biological motion perception**: the human ability to recognize an action from
 just a handful of moving dots placed on the joints (Johansson, 1973).
 
+![A point-light walker emerging from a cloud of moving distractor dots as more of its joints are revealed, until the answer "walk" appears](docs/demo.webp)
+
 > [!NOTE]
 > **Made with AI.** This project is being built with
 > [Claude Code](https://claude.com/claude-code), Anthropic's AI coding
@@ -37,6 +39,8 @@ Game mechanics are still being designed.
 | `pipeline/*.py` | The data pipeline (Python 3.11+, standard library only) |
 | `web/` | Clip viewer (static site; `web/js/display.js` is the reusable display model) |
 | `tests/` | Headless-browser smoke test for the viewer |
+| `tools/` | Local static server and the README demo renderer |
+| `docs/` | README media |
 
 ## Viewer
 
@@ -59,6 +63,7 @@ Tests (Node 18+ and Chromium):
 npm install          # dev dependency: puppeteer-core (uses your system Chromium)
 npm run check        # syntax-check the JS
 npm run smoke        # drive the viewer in headless Chromium; add a folder to save screenshots
+npm run demo         # re-render docs/demo.webp (needs img2webp: apt install webp)
 ```
 
 ## Data pipeline

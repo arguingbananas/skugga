@@ -7,29 +7,12 @@
 // a throwaway local server on 127.0.0.1.
 
 import assert from "node:assert/strict";
-import { execSync } from "node:child_process";
-import { createReadStream, existsSync, mkdirSync, statSync } from "node:fs";
-import { createServer } from "node:http";
-import { extname, join, normalize, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { mkdirSync } from "node:fs";
+import { join, resolve } from "node:path";
 import puppeteer from "puppeteer-core";
+import { chromePath, serve } from "../tools/static-server.mjs";
 
-const ROOT = resolve(fileURLToPath(import.meta.url), "../..");
 const SHOTS = process.argv[2] ? resolve(process.argv[2]) : null;
-const TYPES = { ".html": "text/html", ".js": "text/javascript", ".css": "text/css", ".json": "application/json" };
-
-function serve() {
-  const server = createServer((req, res) => {
-    const path = normalize(decodeURIComponent(new URL(req.url, "http://x").pathname));
-    let file = join(ROOT, path);
-    if (!file.startsWith(ROOT)) return res.writeHead(403).end();
-    if (existsSync(file) && statSync(file).isDirectory()) file = join(file, "index.html");
-    if (!existsSync(file)) return res.writeHead(404).end();
-    res.writeHead(200, { "Content-Type": TYPES[extname(file)] ?? "application/octet-stream" });
-    createReadStream(file).pipe(res);
-  });
-  return new Promise((ok) => server.listen(0, "127.0.0.1", () => ok(server)));
-}
 
 const results = [];
 async function check(name, fn) {
@@ -41,10 +24,10 @@ async function check(name, fn) {
   }
 }
 
-const server = await serve();
-const base = `http://127.0.0.1:${server.address().port}/web/`;
+const { server, origin } = await serve();
+const base = `${origin}/web/`;
 const browser = await puppeteer.launch({
-  executablePath: process.env.CHROME_PATH ?? execSync("command -v chromium || command -v chromium-browser || command -v google-chrome", { shell: "/bin/sh" }).toString().trim(),
+  executablePath: chromePath(),
   args: ["--no-sandbox"],
   defaultViewport: { width: 1200, height: 760 },
 });

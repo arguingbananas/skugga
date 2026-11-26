@@ -4,9 +4,10 @@
   "type": "module",
   "license": "MIT",
   "scripts": {
-    "check": "for f in web/js/*.js tests/*.mjs; do node --check \"$f\" || exit 1; done && echo syntax ok",
+    "check": "for f in web/js/*.js tests/*.mjs tools/*.mjs; do node --check \"$f\" || exit 1; done && echo syntax ok",
     "serve": "python3 -m http.server 8000 --bind 127.0.0.1",
-    "smoke": "node tests/viewer.smoke.mjs"
+    "smoke": "node tests/viewer.smoke.mjs",
+    "demo": "node tools/make-demo.mjs"
   },
   "devDependencies": {
     "puppeteer-core": "^23.11.1"
