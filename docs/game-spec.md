@@ -39,9 +39,9 @@ marked *(default)* are proposals that can still change.
 
 ### 2.1 A round (decided)
 
-1. Every phone shows the same clip, starting with **1 dot**.
-2. A dot is added about every **1.3 seconds** until all **15** show (about
-   20 seconds). The clip loops the whole time.
+1. Every phone shows the same clip, starting with **5 dots**.
+2. A dot is added every **0.7 seconds** until all **31** joints of the CMU
+   skeleton show (about 20 seconds). The clip loops the whole time.
 3. Players type guesses whenever they like. **The first correct guess wins
    the round.**
 
@@ -60,9 +60,10 @@ optional harder modes (section 9).
 
 ### 2.4 Scoring (decided)
 
-The winner of a round scores **16 minus the number of dots showing** when the
-server receives their guess: 15 points at 1 dot, 8 points at 8 dots, 1 point
-with the full figure (and during the grace period after it). Nobody else
+The winner of a round scores **32 minus the number of dots showing** when the
+server receives their guess: 27 points at the start (5 dots), 16 points at 16
+dots, 1 point with the full figure of 31 (and during the grace period after
+it). Nobody else
 scores in that round, and wrong guesses cost nothing beyond being out.
 
 ### 2.5 End of a round *(default)*
@@ -119,7 +120,9 @@ All timing is in server milliseconds.
 | Constant | Value | Meaning |
 |---|---|---|
 | `COUNTDOWN_MS` | 3000 | "Get ready" countdown before each round |
-| `DOT_INTERVAL_MS` | 1300 | Time between dots |
+| `START_DOTS` | 5 | Dots showing when the reveal starts |
+| `TOTAL_DOTS` | 31 | Dots in the full figure |
+| `DOT_INTERVAL_MS` | 700 | Time between dots |
 | `GRACE_MS` | 5000 | Time after the full figure before the round ends unanswered |
 | `ANSWER_MS` | 5000 | How long the answer is shown between rounds |
 
@@ -127,14 +130,17 @@ With the round's reveal starting at server time `t0`, the dots showing at
 server time `t` are:
 
 ```
-dots(t) = min(15, 1 + floor((t - t0) / DOT_INTERVAL_MS))
+dots(t) = min(31, 5 + floor((t - t0) / DOT_INTERVAL_MS))
 ```
 
-The 15th dot appears at `t0 + 14 × 1300 = t0 + 18.2 s`, and an unanswered
+The 31st dot appears at `t0 + 26 × 700 = t0 + 18.2 s`, and an unanswered
 round ends at `t0 + 23.2 s`.
 
-Dots are added in the viewer's `REVEAL_ORDER` (least telling first: left
-ankle, right wrist, head, right knee, left elbow, pelvis, ...).
+Dots are added in the viewer's `REVEAL_ORDER`, least telling first. The
+first five (left ankle, right wrist, head, right knee, left elbow) show
+from the start; then come the rest of the main joints with the spine and
+neck points mixed in; the feet and hands, which give away the most for
+actions like kicking, drinking and waving, come last.
 
 Phones animate the dots smoothly by combining the server's time from their
 last check-in with how long ago that was. The **server's**
@@ -196,7 +202,7 @@ and the server prevents both:
   description or category during a round. A round's clip is known to phones
   only by a random round id. The answer is sent when the round ends.
 - **Seeing dots early.** If a phone received the whole clip at the start, it
-  could draw all 15 dots straight away. Instead, the server sends each dot's
+  could draw all 31 dots straight away. Instead, the server sends each dot's
   motion only when that dot is revealed: when `dots(t)` goes up, phones fetch
   that one marker's track for the round.
 
@@ -290,7 +296,7 @@ password. The README will say so.
 1. **Join:** name box and Join button.
 2. **Lobby:** the players so far; the leader sees Start.
 3. **Countdown:** "Round 3 of 10", counting down 3, 2, 1.
-4. **Reveal:** the dots on black; "4 / 15 dots" and the points a correct guess
+4. **Reveal:** the dots on black; "9 / 31 dots" and the points a correct guess
    would score now; the guess box (disabled once you've guessed); the
    scoreboard with ✗ next to players who are out.
 5. **Answer:** the category, who won and how many points, everyone's guesses,

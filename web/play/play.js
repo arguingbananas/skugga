@@ -4,7 +4,6 @@
 // the server says it's revealed, and sends joins, starts and guesses.
 
 const POLL_MS = 250;
-const TOTAL_DOTS = 15;
 const TOKEN_KEY = "skugga-token";
 
 const $ = (id) => document.getElementById(id);
@@ -175,9 +174,9 @@ async function poll(now = false) {
 function dotsNow() {
   const r = state?.round;
   if (!r) return 0;
-  if (state.status === "answer") return TOTAL_DOTS;
+  if (state.status === "answer") return r.totalDots;
   const now = serverNow();
-  const local = now < r.t0 ? 0 : Math.min(TOTAL_DOTS, 1 + Math.floor((now - r.t0) / r.dotIntervalMs));
+  const local = now < r.t0 ? 0 : Math.min(r.totalDots, r.startDots + Math.floor((now - r.t0) / r.dotIntervalMs));
   return Math.max(r.dotsShown, local);
 }
 
@@ -355,7 +354,7 @@ function draw() {
   }
 
   const dots = dotsNow();
-  renderDotsLine(dots, s.status === "reveal");
+  renderDotsLine(dots, r.totalDots, s.status === "reveal");
   if (dots > tracks.size && tracksRound === r.id) fetchTracks();   // a new dot is due
 
   // Fit the clip's bounds into the canvas, feet near the bottom. While the
@@ -382,14 +381,14 @@ function draw() {
   ctx.fill();
 }
 
-function renderDotsLine(dots, live) {
+function renderDotsLine(dots, total, live) {
   const left = document.createElement("span");
-  left.textContent = `${dots} / ${TOTAL_DOTS} dots`;
+  left.textContent = `${dots} / ${total} dots`;
   const right = document.createElement("span");
   if (live) {
     right.append("Right now: ");
     const pts = document.createElement("strong");
-    pts.textContent = `${TOTAL_DOTS + 1 - dots} pts`;
+    pts.textContent = `${total + 1 - dots} pts`;
     right.append(pts);
   }
   el.dotsLine.replaceChildren(left, right);

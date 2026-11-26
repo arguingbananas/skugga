@@ -23,29 +23,29 @@ class TestTiming(unittest.TestCase):
     def test_dots_before_start(self):
         self.assertEqual(dots_shown(999, 1000), 0)
 
-    def test_first_dot_at_start(self):
-        self.assertEqual(dots_shown(1000, 1000), 1)
+    def test_five_dots_at_start(self):
+        self.assertEqual(dots_shown(1000, 1000), 5)
 
     def test_dot_added_every_interval(self):
         t0 = 10_000
-        self.assertEqual(dots_shown(t0 + 1299, t0), 1)
-        self.assertEqual(dots_shown(t0 + 1300, t0), 2)
-        self.assertEqual(dots_shown(t0 + 13 * 1300, t0), 14)
+        self.assertEqual(dots_shown(t0 + 699, t0), 5)
+        self.assertEqual(dots_shown(t0 + 700, t0), 6)
+        self.assertEqual(dots_shown(t0 + 25 * 700, t0), 30)
 
     def test_full_figure_at_18_2_s_and_stays(self):
         t0 = 0
         self.assertEqual(full_figure_at(t0), 18_200)
-        self.assertEqual(dots_shown(18_199, t0), 14)
-        self.assertEqual(dots_shown(18_200, t0), 15)
-        self.assertEqual(dots_shown(10 ** 9, t0), 15)
+        self.assertEqual(dots_shown(18_199, t0), 30)
+        self.assertEqual(dots_shown(18_200, t0), 31)
+        self.assertEqual(dots_shown(10 ** 9, t0), 31)
 
     def test_deadline_is_grace_after_full_figure(self):
         self.assertEqual(round_deadline(0), 23_200)
 
 
 class TestScoring(unittest.TestCase):
-    def test_points_fall_from_15_to_1(self):
-        self.assertEqual([points_for(d) for d in range(1, 16)], list(range(15, 0, -1)))
+    def test_points_fall_from_27_to_1(self):
+        self.assertEqual([points_for(d) for d in range(5, 32)], list(range(27, 0, -1)))
 
     def test_no_dots_no_points(self):
         self.assertEqual(points_for(0), 0)

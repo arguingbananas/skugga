@@ -125,10 +125,10 @@ await check("auto-reveal ends with all dots, no noise, upright, answer shown", a
   await page.$eval("#reveal-secs", (e) => { e.value = 5; e.dispatchEvent(new Event("input")); });
   await page.keyboard.press("v");
   await new Promise((r) => setTimeout(r, 1500));
-  assert.ok(+(await value("#dots")) < 15, "dots should still be partial early on");
+  assert.ok(+(await value("#dots")) < 31, "dots should still be partial early on");
   await shot("05-reveal-early");
   await page.waitForFunction(() => document.querySelector("#reveal-bar").hidden, { timeout: 8000 });
-  assert.equal(await value("#dots"), "15");
+  assert.equal(await value("#dots"), "31");
   assert.equal(await value("#noise"), "0");
   assert.equal(await page.$eval("#inverted", (e) => e.checked), false);
   assert.equal(await text("#answer-cat"), "run");

@@ -210,7 +210,7 @@ function endReveal() {
   el.revealBar.hidden = true;
 }
 
-/** Auto-reveal: dots 2 → 15 and noise → 0 over the chosen time; flip upright halfway. */
+/** Auto-reveal: dots 2 → all and noise → 0 over the chosen time; flip upright halfway. */
 function tickReveal(now) {
   const r = state.reveal;
   const p = Math.min(1, (now - r.start) / 1000 / r.secs);

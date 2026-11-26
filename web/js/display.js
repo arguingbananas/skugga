@@ -3,8 +3,12 @@
 
 /** Order in which dots are added when revealing a figure, least telling first. */
 export const REVEAL_ORDER = [
-  "lankle", "rwrist", "head", "rknee", "lelbow", "pelvis", "rankle", "lwrist",
-  "lknee", "relbow", "neck", "rhip", "lshoulder", "lhip", "rshoulder",
+  "lankle", "rwrist", "head", "rknee", "lelbow",
+  "lowerback", "pelvis", "upperneck", "rankle", "lwrist",
+  "upperback", "lknee", "relbow", "lowerneck", "neck",
+  "rhip", "lshoulder", "lhip", "rshoulder", "lfoot",
+  "rfoot", "rhand", "lhand", "ltoes", "rtoes",
+  "rknuckles", "lknuckles", "rfingers", "lfingers", "rthumb", "lthumb",
 ];
 
 /** Small seeded PRNG (mulberry32), so a noise pattern can be reproduced. */
