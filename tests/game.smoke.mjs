@@ -5,7 +5,7 @@
 //   npm run smoke:game -- path/to/shots  # also save screenshots there
 //
 // tests/game_launcher.py starts the server with fast timings and 3 rounds:
-//   round 1: Ben guesses wrong, Ana right; Cy joins late and must wait
+//   round 1: Ben guesses wrong, Ana right with the guess wheel; Cy joins late and must wait
 //   round 2: everyone guesses wrong; Ben reloads his page
 //   round 3: nobody guesses (time runs out)
 // then the final scores and Play again, with Cy playing.
@@ -96,6 +96,26 @@ async function guess(page, words) {
   await page.click("#guess-form button");
 }
 
+/** Guess with the wheel: switch to it, drag it, then step to `answer` and send. */
+async function wheelGuess(page, answer) {
+  await page.click("#input-mode");
+  assert.equal(await visible(page, "#guess"), false, "the typing box is still shown");
+  assert.equal(await visible(page, "#wheel"), true, "no wheel");
+  const before = await text(page, "#wheel-word");
+  const box = await (await page.$("#wheel")).boundingBox();
+  const x = box.x + box.width * 0.8, y = box.y + box.height / 2;
+  await page.mouse.move(x, y);
+  await page.mouse.down();
+  for (let i = 1; i <= 6; i++) await page.mouse.move(x - i * 20, y);   // drag 120 px left
+  await page.mouse.up();
+  assert.notEqual(await text(page, "#wheel-word"), before, "dragging didn't move the wheel");
+  await page.focus("#wheel");
+  for (let i = 0; i < 40 && (await text(page, "#wheel-word")) !== answer; i++) await page.keyboard.press("ArrowRight");
+  assert.equal(await text(page, "#wheel-word"), answer);
+  await shot(page, "2b-wheel");
+  await page.click("#guess-form button");
+}
+
 if (SHOTS) mkdirSync(SHOTS, { recursive: true });
 let ana, ben, cy;
 try {
@@ -124,7 +144,7 @@ try {
     assert.equal(await ben.$eval("#guess", (e) => e.disabled), true, "Ben can guess again");
     await ana.waitForFunction(() => document.querySelector("#scores li:not(.me)")?.classList.contains("out"));
     await shot(ben, "2-wrong-guess");
-    await guess(ana, category);
+    await wheelGuess(ana, category);
     await until((t) => t.status === "answer", "the answer");
     await ana.waitForFunction(() => !document.querySelector("#answer").hidden);
     assert.equal((await text(ana, "#answer-category")).toLowerCase(), category);
@@ -142,6 +162,7 @@ try {
   });
 
   await check("round 2: everyone guessing wrong ends the round", async () => {
+    await ana.click("#input-mode");                   // back to typing
     await guess(ana, "zzz");
     await guess(ben, "qqq");
     const t = await until((x) => x.status === "answer" && x.round === 2, "round 2's answer");

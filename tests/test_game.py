@@ -296,10 +296,21 @@ class TestSecrecy(GameTest):
     """Spec section 5: phones get nothing that names the clip, and no dot
     before it's revealed."""
 
+    def test_state_lists_every_action_for_the_wheel(self):
+        a = self.join("Ana")
+        self.assertEqual(self.g.state(self.now, a)["choices"], sorted(CATEGORIES))
+        # every choice, sent as a guess, names its own action
+        for c in sorted(CATEGORIES):
+            self.assertTrue(self.g.checker.is_correct(c, c), c)
+
     def test_state_during_reveal_has_no_answer(self):
         a, b, _ = self.started()
         self.guess(b, self.wrong())
-        text = json.dumps(self.g.state(self.now, a))
+        state = self.g.state(self.now, a)
+        # The wheel's list names every action, the same in every state, so it
+        # tells nothing about this round; everything else must not name it.
+        self.assertEqual(state.pop("choices"), sorted(CATEGORIES))
+        text = json.dumps(state)
         clip = self.g.round.clip
         for secret in (clip.id, clip.description, f'"{clip.category}"', self.wrong()):
             self.assertNotIn(secret, text)

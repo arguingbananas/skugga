@@ -353,6 +353,7 @@ class Game:
             "serverNow": now,
             "totalRounds": self.total_rounds,
             "minPlayers": MIN_PLAYERS,
+            "choices": sorted(self.checker.categories),   # for the guess wheel; not secret
             "maxPlayers": MAX_PLAYERS,
             "players": [{
                 "id": p.id,
