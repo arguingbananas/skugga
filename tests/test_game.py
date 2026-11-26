@@ -77,6 +77,35 @@ class TestLobby(GameTest):
             self.join(f"P{i}")
         self.assertRefused("full", self.g.join, self.now, "Late")
 
+    def test_newcomer_takes_longest_away_place_when_full(self):
+        tokens = [self.join(f"P{i}") for i in range(MAX_PLAYERS)]
+        self.g.touch(self.now + 1, tokens[1])      # P0 and P1 go away; P0 left first
+        self.now += AWAY_MS + 2
+        for t in tokens[2:]:
+            self.g.touch(self.now, t)
+        late = self.g.join(self.now, "Late")
+        names = [p["name"] for p in self.g.state(self.now, late.token)["players"]]
+        self.assertNotIn("P0", names)
+        self.assertIn("P1", names)
+        self.assertEqual(len(names), MAX_PLAYERS)
+        self.assertRefused("bad_token", self.g.start, self.now, tokens[0])
+        self.g.join(self.now, "P0")                # the name is free again (P1's place)
+        self.assertRefused("full", self.g.join, self.now, "Another")
+
+    def test_replaced_player_still_named_in_answer(self):
+        tokens = self.started(2)
+        for i in range(2, MAX_PLAYERS):
+            self.join(f"W{i}")                     # waiting for the next game
+        self.guess(tokens[1], self.wrong())
+        self.now += AWAY_MS + 1                    # P1 goes away; the rest check in
+        for p in self.g.players:
+            if p.token != tokens[1]:
+                self.g.touch(self.now, p.token)
+        self.g.join(self.now, "Late")
+        self.guess(tokens[0], self.answer())
+        guesses = self.g.state(self.now, tokens[0])["answer"]["guesses"]
+        self.assertEqual([g["name"] for g in guesses], ["P1", "P0"])
+
     def test_reconnect_with_token_keeps_player(self):
         a = self.join("Ana")
         p = self.g.join(self.now, "anything", a)
