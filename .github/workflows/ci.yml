@@ -23,8 +23,8 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
-      - name: Install pyflakes (Ubuntu package, not pip)
-        run: sudo apt-get update -qq && sudo apt-get install -y -qq python3-pyflakes
+      - name: Install pyflakes and shellcheck (Ubuntu packages, not pip)
+        run: sudo apt-get update -qq && sudo apt-get install -y -qq python3-pyflakes shellcheck
       - name: Install actionlint (pinned release, checksum verified)
         run: bash tools/install-actionlint.sh
       - name: Syntax-check JavaScript
@@ -33,7 +33,7 @@ jobs:
         run: python3 -m py_compile pipeline/*.py server/*.py tests/*.py
       - name: Unit tests (game rules)
         run: npm test
-      - name: Lint (ESLint, pyflakes, actionlint)
+      - name: Lint (ESLint, pyflakes, actionlint, shellcheck)
         run: npm run lint
       - name: Viewer smoke test (headless Chrome)
         run: npm run smoke

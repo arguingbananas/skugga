@@ -43,7 +43,7 @@ start the game server (below) and open the address it prints on each phone.
 | `server/` | The game server: `rules.py` (guessing, timing, scoring), `game.py` (players and rounds), `skugga_server.py` (HTTP) |
 | `web/` | Clip viewer (static site; `web/js/display.js` is the reusable display model) |
 | `tests/` | Unit tests for the rules, game and server, and a headless-browser smoke test for the viewer |
-| `tools/` | Local static server, the README demo renderer, and the actionlint installer |
+| `tools/` | Local static server, the README demo renderer, the actionlint installer and the shellcheck runner |
 | `docs/` | The game specification, and README media |
 
 ## Game server
@@ -74,13 +74,13 @@ Starting settings can go in the URL, e.g.
 `/web/?dots=5&noise=30&inv=1&hide=1#13_17` (see `applyQuery` in
 `web/js/viewer.js`).
 
-Tests (Node 22.13+, Chromium, pyflakes (`apt install python3-pyflakes`) and
-actionlint (`bash tools/install-actionlint.sh`)):
+Tests (Node 22.13+, Chromium, pyflakes and shellcheck (`apt install
+python3-pyflakes shellcheck`) and actionlint (`bash tools/install-actionlint.sh`)):
 
 ```sh
 npm install          # dev dependency: puppeteer-core (uses your system Chromium)
 npm run check        # syntax-check the JS
-npm run lint         # ESLint, pyflakes and actionlint
+npm run lint         # ESLint, pyflakes, actionlint and shellcheck
 npm test             # unit tests: game rules, game, and the server's HTTP API (Python)
 npm run smoke        # drive the viewer in headless Chromium; add a folder to save screenshots
 npm run smoke:game   # three phones play a short game against the real server (~15 s)
