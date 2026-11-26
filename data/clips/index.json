@@ -552,34 +552,6 @@
    "fps": 30.0
   },
   {
-   "id": "70_01",
-   "category": "carry",
-   "file": "70_01.json",
-   "frames": 179,
-   "fps": 30.0
-  },
-  {
-   "id": "70_05",
-   "category": "carry",
-   "file": "70_05.json",
-   "frames": 226,
-   "fps": 30.0
-  },
-  {
-   "id": "70_12",
-   "category": "carry",
-   "file": "70_12.json",
-   "frames": 199,
-   "fps": 30.0
-  },
-  {
-   "id": "111_36",
-   "category": "carry",
-   "file": "111_36.json",
-   "frames": 300,
-   "fps": 30.0
-  },
-  {
    "id": "42_01",
    "category": "stretch",
    "file": "42_01.json",
