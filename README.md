@@ -40,8 +40,9 @@ itself is being built; the clip viewer below works today.
 | `pipeline/clips.toml` | Which CMU trials become clips, and their categories |
 | `pipeline/cmu_index.json` | Index of all 2,379 CMU trials with descriptions, for choosing clips |
 | `pipeline/*.py` | The data pipeline (Python 3.11+, standard library only) |
+| `server/` | The game server (being built); `server/rules.py` has the game rules |
 | `web/` | Clip viewer (static site; `web/js/display.js` is the reusable display model) |
-| `tests/` | Headless-browser smoke test for the viewer |
+| `tests/` | Unit tests for the game rules, and a headless-browser smoke test for the viewer |
 | `tools/` | Local static server, the README demo renderer, and the actionlint installer |
 | `docs/` | The game specification, and README media |
 
@@ -67,6 +68,7 @@ actionlint (`bash tools/install-actionlint.sh`)):
 npm install          # dev dependency: puppeteer-core (uses your system Chromium)
 npm run check        # syntax-check the JS
 npm run lint         # ESLint, pyflakes and actionlint
+npm test             # unit tests for the game rules (Python)
 npm run smoke        # drive the viewer in headless Chromium; add a folder to save screenshots
 npm run demo         # re-render docs/demo.webp (needs img2webp: apt install webp)
 ```

@@ -28,6 +28,7 @@ npm install          # dev tools only (puppeteer-core)
 npm run serve        # viewer at http://127.0.0.1:8000/web/
 npm run check        # syntax-check the JavaScript
 npm run lint         # ESLint, pyflakes and actionlint
+npm test             # unit tests for the game rules
 npm run smoke        # headless browser smoke test
 ```
 
@@ -36,7 +37,7 @@ The [README](README.md) covers the data pipeline and the demo renderer.
 ## Pull requests
 
 - `main` only accepts changes through pull requests, and CI (syntax check,
-  Python compile check, lint, smoke test) and CodeQL must pass. PRs are merged by
+  Python compile check, lint, unit tests, smoke test) and CodeQL must pass. PRs are merged by
   rebasing, so keep commits tidy and meaningful.
 - Keep each PR to one change, and describe what it does and how you tested it.
 - The viewer and game are plain JavaScript modules with no build step; please
