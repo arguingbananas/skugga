@@ -19,12 +19,14 @@ Security problems: please don't open a public issue; see [SECURITY.md](SECURITY.
 
 ## Development setup
 
-You need Python 3.11+, Node 22.12+ and Chromium (or Chrome).
+You need Python 3.11+ with pyflakes (`apt install python3-pyflakes`), Node 22.13+
+and Chromium (or Chrome).
 
 ```sh
 npm install          # dev tools only (puppeteer-core)
 npm run serve        # viewer at http://127.0.0.1:8000/web/
 npm run check        # syntax-check the JavaScript
+npm run lint         # ESLint and pyflakes
 npm run smoke        # headless browser smoke test
 ```
 
@@ -33,7 +35,7 @@ The [README](README.md) covers the data pipeline and the demo renderer.
 ## Pull requests
 
 - `main` only accepts changes through pull requests, and CI (syntax check,
-  Python compile check, smoke test) and CodeQL must pass. PRs are merged by
+  Python compile check, lint, smoke test) and CodeQL must pass. PRs are merged by
   rebasing, so keep commits tidy and meaningful.
 - Keep each PR to one change, and describe what it does and how you tested it.
 - The viewer and game are plain JavaScript modules with no build step; please

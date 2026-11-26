@@ -57,11 +57,12 @@ Starting settings can go in the URL, e.g.
 `/web/?dots=5&noise=30&inv=1&hide=1#13_17` (see `applyQuery` in
 `web/js/viewer.js`).
 
-Tests (Node 22.12+ and Chromium):
+Tests (Node 22.13+, Chromium, and pyflakes: `apt install python3-pyflakes`):
 
 ```sh
 npm install          # dev dependency: puppeteer-core (uses your system Chromium)
 npm run check        # syntax-check the JS
+npm run lint         # ESLint and pyflakes
 npm run smoke        # drive the viewer in headless Chromium; add a folder to save screenshots
 npm run demo         # re-render docs/demo.webp (needs img2webp: apt install webp)
 ```

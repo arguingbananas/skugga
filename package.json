@@ -4,15 +4,19 @@
   "type": "module",
   "license": "MIT",
   "engines": {
-    "node": ">=22.12"
+    "node": ">=22.13"
   },
   "scripts": {
     "check": "for f in web/js/*.js tests/*.mjs tools/*.mjs; do node --check \"$f\" || exit 1; done && echo syntax ok",
+    "lint": "eslint . && python3 -m pyflakes pipeline/*.py && echo lint ok",
     "serve": "python3 -m http.server 8000 --bind 127.0.0.1",
     "smoke": "node tests/viewer.smoke.mjs",
     "demo": "node tools/make-demo.mjs"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.15.0",
+    "globals": "^17.14.0",
     "puppeteer-core": "^25.19.0"
   }
 }
