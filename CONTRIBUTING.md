@@ -19,14 +19,15 @@ Security problems: please don't open a public issue; see [SECURITY.md](SECURITY.
 
 ## Development setup
 
-You need Python 3.11+ with pyflakes (`apt install python3-pyflakes`), Node 22.13+
-and Chromium (or Chrome).
+You need Python 3.11+ with pyflakes (`apt install python3-pyflakes`), Node 22.13+,
+Chromium (or Chrome), and actionlint for linting the workflows
+(`bash tools/install-actionlint.sh` installs the pinned version).
 
 ```sh
 npm install          # dev tools only (puppeteer-core)
 npm run serve        # viewer at http://127.0.0.1:8000/web/
 npm run check        # syntax-check the JavaScript
-npm run lint         # ESLint and pyflakes
+npm run lint         # ESLint, pyflakes and actionlint
 npm run smoke        # headless browser smoke test
 ```
 
