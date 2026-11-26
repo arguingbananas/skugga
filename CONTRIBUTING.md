@@ -28,7 +28,8 @@ npm install          # dev tools only (puppeteer-core)
 npm run serve        # viewer at http://127.0.0.1:8000/web/
 npm run check        # syntax-check the JavaScript
 npm run lint         # ESLint, pyflakes and actionlint
-npm test             # unit tests for the game rules
+npm test             # unit tests for the rules, game and server
+npm run game         # run the game server
 npm run smoke        # headless browser smoke test
 ```
 
