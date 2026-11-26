@@ -94,7 +94,10 @@ async function join(name) {
 el.joinForm.addEventListener("submit", async (e) => {
   e.preventDefault();
   const name = el.joinName.value.trim();
-  if (!name) return;
+  if (!name) {
+    el.joinError.textContent = JOIN_ERRORS.bad_name;
+    return;
+  }
   el.joinForm.querySelector("button").disabled = true;
   await join(name);
   el.joinForm.querySelector("button").disabled = false;
@@ -300,7 +303,10 @@ function renderScores() {
     li.classList.toggle("away", p.away);
     const name = document.createElement("span");
     name.className = "name";
-    name.textContent = p.name;
+    const who = document.createElement("span");
+    who.className = "who";
+    who.textContent = p.name;
+    name.append(who);
     const tags = [p.leader && "leader", p.waiting && "next game", p.away && "away", s.you?.id === p.id && "you"].filter(Boolean);
     if (tags.length) {
       const tag = document.createElement("span");

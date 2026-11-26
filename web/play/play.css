@@ -86,7 +86,9 @@ button:disabled { opacity: 0.45; cursor: default; }
 .guess-status.bad { color: var(--bad); }
 
 .guesses { list-style: none; padding: 0; margin: 0 0 8px; }
-.guesses li { display: flex; justify-content: space-between; padding: 4px 2px; border-bottom: 1px solid var(--line); }
+.guesses li { display: flex; justify-content: space-between; gap: 12px; padding: 4px 2px; border-bottom: 1px solid var(--line); }
+.guesses li > :first-child { flex: none; max-width: 45%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.guesses li > :last-child { min-width: 0; text-align: right; overflow-wrap: anywhere; }
 .guesses .good { color: var(--good); }
 .guesses .bad { color: var(--bad); }
 .credit { color: var(--muted); font-size: 13px; }
@@ -94,17 +96,20 @@ button:disabled { opacity: 0.45; cursor: default; }
 .scores { list-style: none; padding: 0; margin: 12px 0 0; }
 .scores li {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
   align-items: center;
   padding: 8px 12px;
   margin-bottom: 6px;
   background: var(--panel);
   border-radius: 10px;
 }
-.scores .name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.scores .name { display: flex; align-items: baseline; min-width: 0; white-space: nowrap; }
+.scores .who { overflow: hidden; text-overflow: ellipsis; }
+.scores .tag { flex: none; }
 .scores .tag { color: var(--muted); font-size: 13px; margin-left: 6px; }
 .scores .me { outline: 1px solid var(--accent); }
-.scores .out .name::after { content: " ✗"; color: var(--bad); }
+.scores .out .name::after { content: "✗"; color: var(--bad); flex: none; margin-left: 6px; }
 .scores .away { opacity: 0.5; }
 .scores .score { font-variant-numeric: tabular-nums; font-weight: 700; }
 
