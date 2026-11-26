@@ -51,7 +51,12 @@ const litPixels = () => page.$eval("#canvas", (c) => {
 });
 const text = (sel) => page.$eval(sel, (e) => e.textContent);
 const value = (sel) => page.$eval(sel, (e) => e.value);
-const loaded = () => page.waitForFunction(() => document.querySelector("#answer-cat").textContent !== "");
+// The clip has loaded and at least one frame has been drawn since (drawing
+// happens on animation frames, so waiting for the text alone races it).
+const loaded = async () => {
+  await page.waitForFunction(() => document.querySelector("#answer-cat").textContent !== "");
+  await page.evaluate(() => new Promise((ok) => requestAnimationFrame(() => requestAnimationFrame(ok))));
+};
 
 await check("loads and lists all clips", async () => {
   await page.goto(`${base}#02_01`);
@@ -63,7 +68,6 @@ await check("loads and lists all clips", async () => {
 });
 
 await check("draws dots", async () => {
-  await new Promise((r) => setTimeout(r, 300));
   assert.ok((await litPixels()) > 200, "canvas looks empty");
 });
 
@@ -93,7 +97,6 @@ await check("noise adds dots", async () => {
   const before = await litPixels();
   await page.goto(`${base}?paused=1&t=1&noise=40#13_17`);
   await loaded();
-  await new Promise((r) => setTimeout(r, 200));
   const after = await litPixels();
   assert.ok(after > before * 2, `noise barely changed the picture (${before} -> ${after})`);
   await shot("03-boxing-noise40");
