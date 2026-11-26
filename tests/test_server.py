@@ -129,10 +129,9 @@ class TestStaticFiles(ServerTest):
         self.assertEqual(resp.getheader("X-Content-Type-Options"), "nosniff")
         self.assertEqual(resp.getheader("Cache-Control"), "no-store")
         self.assertEqual(self.request("GET", "/play.js")[0], 200)
-        self.assertEqual(self.request("GET", "/js/display.js")[0], 200)
 
     def test_nothing_else_reachable(self):
-        for path in ["/secret.txt", "/../secret.txt", "/%2e%2e/secret.txt", "/js/viewer.js",
+        for path in ["/secret.txt", "/../secret.txt", "/%2e%2e/secret.txt", "/js/viewer.js", "/js/display.js",
                      "/web/play/index.html", "/data/clips/index.json", "/data/categories.json",
                      "/server/game.py", "//etc/passwd"]:
             self.assertEqual(self.request("GET", path)[0], 404, path)

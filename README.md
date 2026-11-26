@@ -28,8 +28,8 @@ player gets one guess per clip. The actions are broad categories: walk, run,
 jump, dance, boxing, kick, climb, sit, throw, basketball, jumping jacks,
 cartwheel, march, sneak, sweep, wave, golf, limp and drink.
 
-The rules and design are in [docs/game-spec.md](docs/game-spec.md). The game
-itself is being built; the clip viewer below works today.
+The rules and design are in [docs/game-spec.md](docs/game-spec.md). To play,
+start the game server (below) and open the address it prints on each phone.
 
 ## Repository layout
 
@@ -52,8 +52,8 @@ itself is being built; the clip viewer below works today.
 npm run game         # or: python3 server/skugga_server.py [port]   (default 8765)
 ```
 
-It prints an address to open on each phone (same Wi-Fi). The phone page is
-still being built, so for now only the API works. The server assumes a
+It prints an address to open on each phone (same Wi-Fi); everyone enters a
+name, and the first player to join starts the game. The server assumes a
 trusted home network: no HTTPS, no password. It gives each player a token so
 no phone can act as another, accepts only small JSON requests, and refuses
 requests addressed to other host names. See

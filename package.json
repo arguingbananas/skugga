@@ -7,7 +7,7 @@
     "node": ">=22.13"
   },
   "scripts": {
-    "check": "for f in web/js/*.js tests/*.mjs tools/*.mjs; do node --check \"$f\" || exit 1; done && echo syntax ok",
+    "check": "for f in web/js/*.js web/play/*.js tests/*.mjs tools/*.mjs; do node --check \"$f\" || exit 1; done && echo syntax ok",
     "lint": "eslint . && python3 -m pyflakes pipeline/*.py server/*.py tests/*.py && actionlint && echo lint ok",
     "test": "python3 -m unittest discover -s tests",
     "game": "python3 server/skugga_server.py",
