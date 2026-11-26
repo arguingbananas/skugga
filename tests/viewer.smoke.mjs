@@ -7,10 +7,10 @@
 // a throwaway local server on 127.0.0.1.
 
 import assert from "node:assert/strict";
-import { mkdirSync } from "node:fs";
+import { mkdirSync, readFileSync } from "node:fs";
 import { join, resolve } from "node:path";
 import puppeteer from "puppeteer-core";
-import { chromePath, serve } from "../tools/static-server.mjs";
+import { ROOT, chromePath, serve } from "../tools/static-server.mjs";
 
 const SHOTS = process.argv[2] ? resolve(process.argv[2]) : null;
 
@@ -62,7 +62,8 @@ await check("loads and lists all clips", async () => {
   await page.goto(`${base}#02_01`);
   await loaded();
   const options = await page.$$eval("#clip option", (o) => o.length);
-  assert.equal(options, 69);
+  const index = JSON.parse(readFileSync(join(ROOT, "data", "clips", "index.json"), "utf8"));
+  assert.equal(options, index.clips.length);
   assert.equal(await text("#answer-cat"), "walk");
   await shot("01-walk");
 });

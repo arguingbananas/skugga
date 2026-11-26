@@ -515,6 +515,230 @@
    "file": "79_38.json",
    "frames": 271,
    "fps": 30.0
+  },
+  {
+   "id": "115_01",
+   "category": "pick up",
+   "file": "115_01.json",
+   "frames": 118,
+   "fps": 30.0
+  },
+  {
+   "id": "137_27",
+   "category": "pick up",
+   "file": "137_27.json",
+   "frames": 291,
+   "fps": 30.0
+  },
+  {
+   "id": "80_08",
+   "category": "pick up",
+   "file": "80_08.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "143_11",
+   "category": "pick up",
+   "file": "143_11.json",
+   "frames": 165,
+   "fps": 30.0
+  },
+  {
+   "id": "26_09",
+   "category": "pick up",
+   "file": "26_09.json",
+   "frames": 185,
+   "fps": 30.0
+  },
+  {
+   "id": "70_01",
+   "category": "carry",
+   "file": "70_01.json",
+   "frames": 179,
+   "fps": 30.0
+  },
+  {
+   "id": "70_05",
+   "category": "carry",
+   "file": "70_05.json",
+   "frames": 226,
+   "fps": 30.0
+  },
+  {
+   "id": "70_12",
+   "category": "carry",
+   "file": "70_12.json",
+   "frames": 199,
+   "fps": 30.0
+  },
+  {
+   "id": "111_36",
+   "category": "carry",
+   "file": "111_36.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "42_01",
+   "category": "stretch",
+   "file": "42_01.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "77_21",
+   "category": "stretch",
+   "file": "77_21.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "114_10",
+   "category": "stretch",
+   "file": "114_10.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "141_13",
+   "category": "stretch",
+   "file": "141_13.json",
+   "frames": 92,
+   "fps": 30.0
+  },
+  {
+   "id": "143_30",
+   "category": "stretch",
+   "file": "143_30.json",
+   "frames": 93,
+   "fps": 30.0
+  },
+  {
+   "id": "83_27",
+   "category": "stairs",
+   "file": "83_27.json",
+   "frames": 246,
+   "fps": 30.0
+  },
+  {
+   "id": "83_31",
+   "category": "stairs",
+   "file": "83_31.json",
+   "frames": 234,
+   "fps": 30.0
+  },
+  {
+   "id": "83_34",
+   "category": "stairs",
+   "file": "83_34.json",
+   "frames": 242,
+   "fps": 30.0
+  },
+  {
+   "id": "111_27",
+   "category": "stairs",
+   "file": "111_27.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "13_20",
+   "category": "wash window",
+   "file": "13_20.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "14_10",
+   "category": "wash window",
+   "file": "14_10.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "79_44",
+   "category": "wash window",
+   "file": "79_44.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "80_50",
+   "category": "wash window",
+   "file": "80_50.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "143_26",
+   "category": "wash window",
+   "file": "143_26.json",
+   "frames": 159,
+   "fps": 30.0
+  },
+  {
+   "id": "81_05",
+   "category": "push",
+   "file": "81_05.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "81_06",
+   "category": "push",
+   "file": "81_06.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "82_06",
+   "category": "push",
+   "file": "82_06.json",
+   "frames": 273,
+   "fps": 30.0
+  },
+  {
+   "id": "82_07",
+   "category": "push",
+   "file": "82_07.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "28_15",
+   "category": "animal",
+   "file": "28_15.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "29_16",
+   "category": "animal",
+   "file": "29_16.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "30_20",
+   "category": "animal",
+   "file": "30_20.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "31_16",
+   "category": "animal",
+   "file": "31_16.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "32_15",
+   "category": "animal",
+   "file": "32_15.json",
+   "frames": 300,
+   "fps": 30.0
   }
  ]
 }

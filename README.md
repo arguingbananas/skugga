@@ -24,9 +24,11 @@ action scores, and the earlier they get it, the more points they score.
 Everyone plays on their own phone: one player runs a small server on a computer,
 and the others join from their phones' browsers on the same Wi-Fi. Guesses are
 free text, and synonyms count ("jog" for *run*, "tiptoe" for *sneak*). Each
-player gets one guess per clip. The actions are broad categories: walk, run,
-jump, dance, boxing, kick, climb, sit, throw, basketball, jumping jacks,
-cartwheel, march, sneak, sweep, wave, golf, limp and drink.
+player gets one guess per clip. The actions are 26 broad categories: walk,
+run, jump, dance, boxing, kick, climb, sit, throw, basketball, jumping jacks,
+cartwheel, march, sneak, sweep, wave, golf, limp, drink, pick up, carry,
+stretch, stairs, wash window, push and animal (impressions of a monkey, bear,
+chicken, elephant or dog).
 
 The rules and design are in [docs/game-spec.md](docs/game-spec.md). To play,
 start the game server (below) and open the address it prints on each phone.

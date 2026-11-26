@@ -257,3 +257,113 @@ category = "drink"
 [[clip]]
 id = "79_38"
 category = "drink"
+
+# --- pick up
+[[clip]]
+id = "115_01"
+category = "pick up"
+[[clip]]
+id = "137_27"
+category = "pick up"
+[[clip]]
+id = "80_08"
+category = "pick up"
+[[clip]]
+id = "143_11"
+category = "pick up"
+[[clip]]
+id = "26_09"
+category = "pick up"
+
+# --- carry
+[[clip]]
+id = "70_01"
+category = "carry"
+[[clip]]
+id = "70_05"
+category = "carry"
+[[clip]]
+id = "70_12"
+category = "carry"
+[[clip]]
+id = "111_36"
+category = "carry"
+
+# --- stretch (and yawn: CMU has no yawn-only trials)
+[[clip]]
+id = "42_01"
+category = "stretch"
+[[clip]]
+id = "77_21"
+category = "stretch"
+[[clip]]
+id = "114_10"
+category = "stretch"
+[[clip]]
+id = "141_13"
+category = "stretch"
+[[clip]]
+id = "143_30"
+category = "stretch"
+
+# --- stairs
+[[clip]]
+id = "83_27"
+category = "stairs"
+[[clip]]
+id = "83_31"
+category = "stairs"
+[[clip]]
+id = "83_34"
+category = "stairs"
+[[clip]]
+id = "111_27"
+category = "stairs"
+
+# --- wash window
+[[clip]]
+id = "13_20"
+category = "wash window"
+[[clip]]
+id = "14_10"
+category = "wash window"
+[[clip]]
+id = "79_44"
+category = "wash window"
+[[clip]]
+id = "80_50"
+category = "wash window"
+[[clip]]
+id = "143_26"
+category = "wash window"
+
+# --- push
+[[clip]]
+id = "81_05"
+category = "push"
+[[clip]]
+id = "81_06"
+category = "push"
+[[clip]]
+id = "82_06"
+category = "push"
+[[clip]]
+id = "82_07"
+category = "push"
+
+# --- animal (impressions by a human actor)
+[[clip]]
+id = "28_15"
+category = "animal"
+[[clip]]
+id = "29_16"
+category = "animal"
+[[clip]]
+id = "30_20"
+category = "animal"
+[[clip]]
+id = "31_16"
+category = "animal"
+[[clip]]
+id = "32_15"
+category = "animal"

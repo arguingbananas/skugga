@@ -91,7 +91,7 @@ out. All guesses are shown when the round ends.
 - Categories and clips are dealt like shuffled decks that carry over from
   game to game for as long as the server runs: every category comes up once
   before any comes up again, and within a category every clip plays before
-  any plays again. With 19 categories, two games in a row show all of them.
+  any plays again. With 26 categories, three games in a row show all of them.
 - After the last round, a final scoreboard and a **Play again** button. Play
   again keeps the same players and resets scores.
 - **2 to 8 players.**
