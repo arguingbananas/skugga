@@ -205,12 +205,12 @@ class TestDealing(GameTest):
         all_categories = {c.category for c in CLIPS}
         for seed in range(20):
             self.g = Game(CLIPS, CATEGORIES, rng=random.Random(seed))
-            g1, g2 = self.games(2)
-            for game in (g1, g2):
+            games = self.games(-(-len(all_categories) // 10))   # enough games to cover all
+            for game in games:
                 self.assertEqual(len({c.category for c in game}), 10)   # no repeats in a game
-            # 20 rounds over 19 categories: every one of them, before any twice
-            first_19 = [c.category for c in g1 + g2][:len(all_categories)]
-            self.assertEqual(set(first_19), all_categories)
+            # the first rounds, one per category, are every one of them
+            dealt = [c.category for game in games for c in game][:len(all_categories)]
+            self.assertEqual(set(dealt), all_categories)
 
     def test_every_clip_of_a_category_before_any_repeats(self):
         dealt: dict[str, list[str]] = {}
