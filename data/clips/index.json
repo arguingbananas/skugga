@@ -1,0 +1,504 @@
+{
+ "markers": [
+  "head",
+  "neck",
+  "lshoulder",
+  "rshoulder",
+  "lelbow",
+  "relbow",
+  "lwrist",
+  "rwrist",
+  "pelvis",
+  "lhip",
+  "rhip",
+  "lknee",
+  "rknee",
+  "lankle",
+  "rankle"
+ ],
+ "clips": [
+  {
+   "id": "02_01",
+   "category": "walk",
+   "file": "02_01.json",
+   "frames": 86,
+   "fps": 30.0
+  },
+  {
+   "id": "07_01",
+   "category": "walk",
+   "file": "07_01.json",
+   "frames": 79,
+   "fps": 30.0
+  },
+  {
+   "id": "08_01",
+   "category": "walk",
+   "file": "08_01.json",
+   "frames": 70,
+   "fps": 30.0
+  },
+  {
+   "id": "12_01",
+   "category": "walk",
+   "file": "12_01.json",
+   "frames": 131,
+   "fps": 30.0
+  },
+  {
+   "id": "16_15",
+   "category": "walk",
+   "file": "16_15.json",
+   "frames": 118,
+   "fps": 30.0
+  },
+  {
+   "id": "02_03",
+   "category": "run",
+   "file": "02_03.json",
+   "frames": 44,
+   "fps": 30.0
+  },
+  {
+   "id": "09_01",
+   "category": "run",
+   "file": "09_01.json",
+   "frames": 37,
+   "fps": 30.0
+  },
+  {
+   "id": "16_35",
+   "category": "run",
+   "file": "16_35.json",
+   "frames": 41,
+   "fps": 30.0
+  },
+  {
+   "id": "35_17",
+   "category": "run",
+   "file": "35_17.json",
+   "frames": 42,
+   "fps": 30.0
+  },
+  {
+   "id": "13_11",
+   "category": "jump",
+   "file": "13_11.json",
+   "frames": 104,
+   "fps": 30.0
+  },
+  {
+   "id": "13_39",
+   "category": "jump",
+   "file": "13_39.json",
+   "frames": 88,
+   "fps": 30.0
+  },
+  {
+   "id": "16_01",
+   "category": "jump",
+   "file": "16_01.json",
+   "frames": 81,
+   "fps": 30.0
+  },
+  {
+   "id": "49_02",
+   "category": "jump",
+   "file": "49_02.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "05_02",
+   "category": "dance",
+   "file": "05_02.json",
+   "frames": 281,
+   "fps": 30.0
+  },
+  {
+   "id": "18_15",
+   "category": "dance",
+   "file": "18_15.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "49_09",
+   "category": "dance",
+   "file": "49_09.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "55_02",
+   "category": "dance",
+   "file": "55_02.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "93_03",
+   "category": "dance",
+   "file": "93_03.json",
+   "frames": 111,
+   "fps": 30.0
+  },
+  {
+   "id": "13_17",
+   "category": "boxing",
+   "file": "13_17.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "14_01",
+   "category": "boxing",
+   "file": "14_01.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "15_13",
+   "category": "boxing",
+   "file": "15_13.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "17_10",
+   "category": "boxing",
+   "file": "17_10.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "10_01",
+   "category": "kick",
+   "file": "10_01.json",
+   "frames": 201,
+   "fps": 30.0
+  },
+  {
+   "id": "74_03",
+   "category": "kick",
+   "file": "74_03.json",
+   "frames": 198,
+   "fps": 30.0
+  },
+  {
+   "id": "135_04",
+   "category": "kick",
+   "file": "135_04.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "144_05",
+   "category": "kick",
+   "file": "144_05.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "13_33",
+   "category": "climb",
+   "file": "13_33.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "14_33",
+   "category": "climb",
+   "file": "14_33.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "143_37",
+   "category": "climb",
+   "file": "143_37.json",
+   "frames": 138,
+   "fps": 30.0
+  },
+  {
+   "id": "13_01",
+   "category": "sit",
+   "file": "13_01.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "113_15",
+   "category": "sit",
+   "file": "113_15.json",
+   "frames": 239,
+   "fps": 30.0
+  },
+  {
+   "id": "141_17",
+   "category": "sit",
+   "file": "141_17.json",
+   "frames": 141,
+   "fps": 30.0
+  },
+  {
+   "id": "143_18",
+   "category": "sit",
+   "file": "143_18.json",
+   "frames": 188,
+   "fps": 30.0
+  },
+  {
+   "id": "111_33",
+   "category": "throw",
+   "file": "111_33.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "113_24",
+   "category": "throw",
+   "file": "113_24.json",
+   "frames": 277,
+   "fps": 30.0
+  },
+  {
+   "id": "143_20",
+   "category": "throw",
+   "file": "143_20.json",
+   "frames": 163,
+   "fps": 30.0
+  },
+  {
+   "id": "06_02",
+   "category": "basketball",
+   "file": "06_02.json",
+   "frames": 181,
+   "fps": 30.0
+  },
+  {
+   "id": "06_13",
+   "category": "basketball",
+   "file": "06_13.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "06_15",
+   "category": "basketball",
+   "file": "06_15.json",
+   "frames": 137,
+   "fps": 30.0
+  },
+  {
+   "id": "22_15",
+   "category": "jumping jacks",
+   "file": "22_15.json",
+   "frames": 124,
+   "fps": 30.0
+  },
+  {
+   "id": "22_16",
+   "category": "jumping jacks",
+   "file": "22_16.json",
+   "frames": 108,
+   "fps": 30.0
+  },
+  {
+   "id": "23_16",
+   "category": "jumping jacks",
+   "file": "23_16.json",
+   "frames": 108,
+   "fps": 30.0
+  },
+  {
+   "id": "49_06",
+   "category": "cartwheel",
+   "file": "49_06.json",
+   "frames": 121,
+   "fps": 30.0
+  },
+  {
+   "id": "88_07",
+   "category": "cartwheel",
+   "file": "88_07.json",
+   "frames": 78,
+   "fps": 30.0
+  },
+  {
+   "id": "90_02",
+   "category": "cartwheel",
+   "file": "90_02.json",
+   "frames": 196,
+   "fps": 30.0
+  },
+  {
+   "id": "144_01",
+   "category": "cartwheel",
+   "file": "144_01.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "91_19",
+   "category": "march",
+   "file": "91_19.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "113_09",
+   "category": "march",
+   "file": "113_09.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "138_01",
+   "category": "march",
+   "file": "138_01.json",
+   "frames": 202,
+   "fps": 30.0
+  },
+  {
+   "id": "139_29",
+   "category": "sneak",
+   "file": "139_29.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "142_22",
+   "category": "sneak",
+   "file": "142_22.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "143_41",
+   "category": "sneak",
+   "file": "143_41.json",
+   "frames": 292,
+   "fps": 30.0
+  },
+  {
+   "id": "13_23",
+   "category": "sweep",
+   "file": "13_23.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "14_16",
+   "category": "sweep",
+   "file": "14_16.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "79_55",
+   "category": "sweep",
+   "file": "79_55.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "143_28",
+   "category": "sweep",
+   "file": "143_28.json",
+   "frames": 161,
+   "fps": 30.0
+  },
+  {
+   "id": "111_37",
+   "category": "wave",
+   "file": "111_37.json",
+   "frames": 81,
+   "fps": 30.0
+  },
+  {
+   "id": "113_27",
+   "category": "wave",
+   "file": "113_27.json",
+   "frames": 90,
+   "fps": 30.0
+  },
+  {
+   "id": "141_16",
+   "category": "wave",
+   "file": "141_16.json",
+   "frames": 75,
+   "fps": 30.0
+  },
+  {
+   "id": "143_25",
+   "category": "wave",
+   "file": "143_25.json",
+   "frames": 165,
+   "fps": 30.0
+  },
+  {
+   "id": "63_01",
+   "category": "golf",
+   "file": "63_01.json",
+   "frames": 112,
+   "fps": 30.0
+  },
+  {
+   "id": "64_01",
+   "category": "golf",
+   "file": "64_01.json",
+   "frames": 112,
+   "fps": 30.0
+  },
+  {
+   "id": "64_05",
+   "category": "golf",
+   "file": "64_05.json",
+   "frames": 97,
+   "fps": 30.0
+  },
+  {
+   "id": "77_19",
+   "category": "limp",
+   "file": "77_19.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "91_16",
+   "category": "limp",
+   "file": "91_16.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "105_16",
+   "category": "limp",
+   "file": "105_16.json",
+   "frames": 300,
+   "fps": 30.0
+  },
+  {
+   "id": "13_09",
+   "category": "drink",
+   "file": "13_09.json",
+   "frames": 276,
+   "fps": 30.0
+  },
+  {
+   "id": "14_37",
+   "category": "drink",
+   "file": "14_37.json",
+   "frames": 129,
+   "fps": 30.0
+  },
+  {
+   "id": "79_38",
+   "category": "drink",
+   "file": "79_38.json",
+   "frames": 271,
+   "fps": 30.0
+  }
+ ]
+}

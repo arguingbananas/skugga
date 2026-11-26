@@ -1,0 +1,24 @@
+{
+  "_comment": "Broad action categories and the guesses that count as correct. Matching is case-insensitive and ignores punctuation; the game also accepts close misspellings.",
+  "categories": {
+    "walk":          ["walking", "stroll", "strolling", "stride", "striding", "amble", "wander", "pace", "pacing"],
+    "run":           ["running", "jog", "jogging", "sprint", "sprinting", "dash", "dashing"],
+    "jump":          ["jumping", "hop", "hopping", "leap", "leaping", "bounce", "bouncing"],
+    "dance":         ["dancing", "ballet", "boogie", "groove", "grooving", "twirl", "salsa", "charleston", "lambada", "chicken dance"],
+    "boxing":        ["box", "punch", "punching", "fight", "fighting", "spar", "sparring", "shadowbox", "shadowboxing", "jab", "jabbing"],
+    "kick":          ["kicking", "karate", "martial arts", "soccer", "kick ball", "kicking a ball"],
+    "climb":         ["climbing", "ladder", "climb ladder", "climbing a ladder"],
+    "sit":           ["sitting", "sit down", "sitting down", "chair", "stool", "stand up", "standing up"],
+    "throw":         ["throwing", "toss", "tossing", "pitch", "pitching", "hurl", "lob"],
+    "basketball":    ["dribble", "dribbling", "hoops", "shooting hoops", "bouncing a ball", "bounce ball"],
+    "jumping jacks": ["jumping jack", "star jump", "star jumps", "jacks"],
+    "cartwheel":     ["cartwheels", "cartwheeling", "gymnastics", "tumble", "tumbling", "handspring"],
+    "march":         ["marching", "parade", "soldier", "goose step", "high knees"],
+    "sneak":         ["sneaking", "sneaky", "creep", "creeping", "tiptoe", "tiptoeing", "prowl", "prowling", "stalk", "stalking"],
+    "sweep":         ["sweeping", "broom", "mop", "mopping", "cleaning", "clean floor"],
+    "wave":          ["waving", "hello", "hi", "goodbye", "bye", "wave hello", "greeting"],
+    "golf":          ["golfing", "golf swing", "swing", "putt", "putting", "tee off", "drive"],
+    "limp":          ["limping", "hobble", "hobbling", "injured", "hurt", "wounded", "hurt leg"],
+    "drink":         ["drinking", "sip", "sipping", "soda", "bottle", "drink water", "chug"]
+  }
+}

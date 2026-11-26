@@ -1,0 +1,259 @@
+# Clips to build, chosen from pipeline/cmu_index.json (CMU trial ids).
+#
+#   [[clip]]
+#   id = "02_01"        # CMU subject_trial
+#   category = "walk"   # key in data/categories.json
+#   start = 0.0         # optional: seconds into the trial to start
+#   end = 8.0           # optional: seconds into the trial to stop
+#
+# Clips longer than `max_seconds` are cut there (from `start`).
+# First pass: broad categories, 3-6 clips each, mixed subjects. Refine by
+# watching clips in the viewer and dropping or trimming the weak ones.
+
+max_seconds = 10.0
+fps = 30
+
+# --- walk
+[[clip]]
+id = "02_01"
+category = "walk"
+[[clip]]
+id = "07_01"
+category = "walk"
+[[clip]]
+id = "08_01"
+category = "walk"
+[[clip]]
+id = "12_01"
+category = "walk"
+[[clip]]
+id = "16_15"
+category = "walk"
+
+# --- run
+[[clip]]
+id = "02_03"
+category = "run"
+[[clip]]
+id = "09_01"
+category = "run"
+[[clip]]
+id = "16_35"
+category = "run"
+[[clip]]
+id = "35_17"
+category = "run"
+
+# --- jump
+[[clip]]
+id = "13_11"
+category = "jump"
+[[clip]]
+id = "13_39"
+category = "jump"
+[[clip]]
+id = "16_01"
+category = "jump"
+[[clip]]
+id = "49_02"
+category = "jump"
+
+# --- dance
+[[clip]]
+id = "05_02"
+category = "dance"
+[[clip]]
+id = "18_15"
+category = "dance"
+[[clip]]
+id = "49_09"
+category = "dance"
+[[clip]]
+id = "55_02"
+category = "dance"
+[[clip]]
+id = "93_03"
+category = "dance"
+
+# --- boxing
+[[clip]]
+id = "13_17"
+category = "boxing"
+[[clip]]
+id = "14_01"
+category = "boxing"
+[[clip]]
+id = "15_13"
+category = "boxing"
+[[clip]]
+id = "17_10"
+category = "boxing"
+
+# --- kick
+[[clip]]
+id = "10_01"
+category = "kick"
+[[clip]]
+id = "74_03"
+category = "kick"
+[[clip]]
+id = "135_04"
+category = "kick"
+[[clip]]
+id = "144_05"
+category = "kick"
+
+# --- climb
+[[clip]]
+id = "13_33"
+category = "climb"
+[[clip]]
+id = "14_33"
+category = "climb"
+[[clip]]
+id = "143_37"
+category = "climb"
+
+# --- sit
+[[clip]]
+id = "13_01"
+category = "sit"
+[[clip]]
+id = "113_15"
+category = "sit"
+[[clip]]
+id = "141_17"
+category = "sit"
+[[clip]]
+id = "143_18"
+category = "sit"
+
+# --- throw
+[[clip]]
+id = "111_33"
+category = "throw"
+[[clip]]
+id = "113_24"
+category = "throw"
+[[clip]]
+id = "143_20"
+category = "throw"
+
+# --- basketball
+[[clip]]
+id = "06_02"
+category = "basketball"
+[[clip]]
+id = "06_13"
+category = "basketball"
+[[clip]]
+id = "06_15"
+category = "basketball"
+
+# --- jumping jacks
+[[clip]]
+id = "22_15"
+category = "jumping jacks"
+[[clip]]
+id = "22_16"
+category = "jumping jacks"
+[[clip]]
+id = "23_16"
+category = "jumping jacks"
+
+# --- cartwheel
+[[clip]]
+id = "49_06"
+category = "cartwheel"
+[[clip]]
+id = "88_07"
+category = "cartwheel"
+[[clip]]
+id = "90_02"
+category = "cartwheel"
+[[clip]]
+id = "144_01"
+category = "cartwheel"
+
+# --- march
+[[clip]]
+id = "91_19"
+category = "march"
+[[clip]]
+id = "113_09"
+category = "march"
+[[clip]]
+id = "138_01"
+category = "march"
+
+# --- sneak
+[[clip]]
+id = "139_29"
+category = "sneak"
+[[clip]]
+id = "142_22"
+category = "sneak"
+[[clip]]
+id = "143_41"
+category = "sneak"
+
+# --- sweep
+[[clip]]
+id = "13_23"
+category = "sweep"
+[[clip]]
+id = "14_16"
+category = "sweep"
+[[clip]]
+id = "79_55"
+category = "sweep"
+[[clip]]
+id = "143_28"
+category = "sweep"
+
+# --- wave
+[[clip]]
+id = "111_37"
+category = "wave"
+[[clip]]
+id = "113_27"
+category = "wave"
+[[clip]]
+id = "141_16"
+category = "wave"
+[[clip]]
+id = "143_25"
+category = "wave"
+
+# --- golf
+[[clip]]
+id = "63_01"
+category = "golf"
+[[clip]]
+id = "64_01"
+category = "golf"
+[[clip]]
+id = "64_05"
+category = "golf"
+
+# --- limp
+[[clip]]
+id = "77_19"
+category = "limp"
+[[clip]]
+id = "91_16"
+category = "limp"
+[[clip]]
+id = "105_16"
+category = "limp"
+
+# --- drink
+[[clip]]
+id = "13_09"
+category = "drink"
+[[clip]]
+id = "14_37"
+category = "drink"
+[[clip]]
+id = "79_38"
+category = "drink"

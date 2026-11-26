@@ -27,3 +27,8 @@ Thumbs.db
 .idea/
 *.swp
 *.log
+
+# Python
+__pycache__/
+*.pyc
+.venv/
