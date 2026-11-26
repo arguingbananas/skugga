@@ -99,6 +99,10 @@ to CMU's terms: free to use, including in commercial products, but not to be
 resold directly, even in altered form. The MIT license below covers this
 project's own code and documentation, not the CMU data.
 
+## Security
+
+Please report vulnerabilities privately; see [SECURITY.md](SECURITY.md).
+
 ## License
 
 [MIT](LICENSE)
