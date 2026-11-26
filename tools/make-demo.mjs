@@ -1,4 +1,4 @@
-// Render the README demo animation: a point-light walker revealed one dot at a time.
+// Render the README demo animation: a point-light walker revealed from 5 dots, one more at a time.
 //
 //   npm run demo                 # writes docs/demo.webp
 //   npm run demo -- frames/      # also keep the PNG frames there, for checking
@@ -18,8 +18,9 @@ const CLIP = "12_01";        // walk: the classic Johansson display
 const W = 480, H = 320;      // output size in pixels
 const FPS = 25;
 const SECONDS = 9.5;
-const FIRST_DOT_HOLD = 1.0;  // seconds showing a single dot before adding more
-const DOT_EVERY = 0.42;      // seconds between added dots
+const START_DOTS = 5;        // dots showing from the start, as in the game
+const START_HOLD = 1.0;      // seconds showing those before adding more
+const DOT_EVERY = 0.22;      // seconds between added dots
 const AZIMUTH = 30;          // slightly angled, so left and right limbs separate
 const OUT = join(ROOT, "docs", "demo.webp");
 const KEEP = process.argv[2] ? resolve(process.argv[2]) : null;
@@ -48,15 +49,15 @@ try {
     const scratch = {};
     const out = [];
 
-    // Timeline: start with as little as possible (one dot), add one joint at a
-    // time, and show the answer once the whole figure is there. No noise: the
-    // demo shows the README's "starts with as little information as possible".
+    // Timeline: start with START_DOTS dots, as the game does, add one joint at
+    // a time, and show the answer once the whole figure is there. No noise.
     const n = REVEAL_ORDER.length;
-    const revealEnd = cfg.FIRST_DOT_HOLD + (n - 1) * cfg.DOT_EVERY;
+    const s = cfg.START_DOTS;
+    const revealEnd = cfg.START_HOLD + (n - s) * cfg.DOT_EVERY;
     for (let f = 0; f < total; f++) {
       const t = f / cfg.FPS;
-      const dots = Math.min(n, 1 + Math.max(0, Math.floor((t - cfg.FIRST_DOT_HOLD) / cfg.DOT_EVERY) + 1));
-      const p = (dots - 1) / (n - 1);
+      const dots = t < cfg.START_HOLD ? s : Math.min(n, s + Math.floor((t - cfg.START_HOLD) / cfg.DOT_EVERY) + 1);
+      const p = (dots - s) / (n - s);
       const pts = scene(clip, stats, t, { visible: new Set(REVEAL_ORDER.slice(0, dots)), noise: [], inPlace: true }, scratch);
       const xy = camera(pts);
 
@@ -101,7 +102,7 @@ try {
       out.push(canvas.toDataURL("image/png"));
     }
     return out;
-  }, { CLIP, W, H, FPS, SECONDS, FIRST_DOT_HOLD, DOT_EVERY, AZIMUTH });
+  }, { CLIP, W, H, FPS, SECONDS, START_DOTS, START_HOLD, DOT_EVERY, AZIMUTH });
 
   const files = frames.map((url, i) => {
     const file = join(tmp, `f${String(i).padStart(4, "0")}.png`);
