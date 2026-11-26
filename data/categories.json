@@ -1,24 +1,24 @@
 {
-  "_comment": "Broad action categories and the guesses that count as correct. Matching is case-insensitive and ignores punctuation; the game also accepts close misspellings.",
+  "_comment": "Broad action categories and the guesses that count as correct. Matching is case-insensitive, ignores punctuation and a/an/the, and accepts other forms of a word (walks, walked) and close misspellings. See docs/game-spec.md, section 4.",
   "categories": {
     "walk":          ["walking", "stroll", "strolling", "stride", "striding", "amble", "wander", "pace", "pacing"],
-    "run":           ["running", "jog", "jogging", "sprint", "sprinting", "dash", "dashing"],
-    "jump":          ["jumping", "hop", "hopping", "leap", "leaping", "bounce", "bouncing"],
-    "dance":         ["dancing", "ballet", "boogie", "groove", "grooving", "twirl", "salsa", "charleston", "lambada", "chicken dance"],
+    "run":           ["running", "jog", "jogging", "sprint", "sprinting", "dash", "dashing", "ran"],
+    "jump":          ["jumping", "hop", "hopping", "leap", "leaping", "bounce", "bouncing", "skip", "skipping"],
+    "dance":         ["dancing", "ballet", "boogie", "groove", "grooving", "twirl", "salsa", "charleston", "lambada", "chicken dance", "disco", "waltz", "pirouette"],
     "boxing":        ["box", "punch", "punching", "fight", "fighting", "spar", "sparring", "shadowbox", "shadowboxing", "jab", "jabbing"],
-    "kick":          ["kicking", "karate", "martial arts", "soccer", "kick ball", "kicking a ball"],
+    "kick":          ["kicking", "karate", "martial arts", "soccer", "kick ball", "kicking a ball", "football", "taekwondo"],
     "climb":         ["climbing", "ladder", "climb ladder", "climbing a ladder"],
-    "sit":           ["sitting", "sit down", "sitting down", "chair", "stool", "stand up", "standing up"],
-    "throw":         ["throwing", "toss", "tossing", "pitch", "pitching", "hurl", "lob"],
-    "basketball":    ["dribble", "dribbling", "hoops", "shooting hoops", "bouncing a ball", "bounce ball"],
-    "jumping jacks": ["jumping jack", "star jump", "star jumps", "jacks"],
-    "cartwheel":     ["cartwheels", "cartwheeling", "gymnastics", "tumble", "tumbling", "handspring"],
+    "sit":           ["sitting", "sit down", "sitting down", "chair", "stool", "stand up", "standing up", "sat"],
+    "throw":         ["throwing", "toss", "tossing", "pitch", "pitching", "hurl", "lob", "threw", "thrown", "fling", "baseball"],
+    "basketball":    ["dribble", "dribbling", "hoops", "shooting hoops", "bouncing a ball", "bounce ball", "basket ball"],
+    "jumping jacks": ["jumping jack", "star jump", "star jumps", "jacks", "jumpingjacks"],
+    "cartwheel":     ["cartwheels", "cartwheeling", "gymnastics", "tumble", "tumbling", "handspring", "cart wheel"],
     "march":         ["marching", "parade", "soldier", "goose step", "high knees"],
-    "sneak":         ["sneaking", "sneaky", "creep", "creeping", "tiptoe", "tiptoeing", "prowl", "prowling", "stalk", "stalking"],
-    "sweep":         ["sweeping", "broom", "mop", "mopping", "cleaning", "clean floor"],
+    "sneak":         ["sneaking", "sneaky", "creep", "creeping", "tiptoe", "tiptoeing", "prowl", "prowling", "stalk", "stalking", "snuck", "tip toe", "stealth", "stealthy"],
+    "sweep":         ["sweeping", "broom", "mop", "mopping", "cleaning", "clean floor", "vacuum", "vacuuming"],
     "wave":          ["waving", "hello", "hi", "goodbye", "bye", "wave hello", "greeting"],
     "golf":          ["golfing", "golf swing", "swing", "putt", "putting", "tee off", "drive"],
-    "limp":          ["limping", "hobble", "hobbling", "injured", "hurt", "wounded", "hurt leg"],
-    "drink":         ["drinking", "sip", "sipping", "soda", "bottle", "drink water", "chug"]
+    "limp":          ["limping", "hobble", "hobbling", "injured", "hurt", "wounded", "hurt leg", "walk with a limp", "broken leg"],
+    "drink":         ["drinking", "sip", "sipping", "soda", "bottle", "drink water", "chug", "drank"]
   }
 }

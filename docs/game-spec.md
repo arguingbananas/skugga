@@ -145,29 +145,40 @@ The server checks guesses; phones never know the answer before the round ends.
 
 1. **Normalize:** lowercase; turn anything that isn't a letter, digit or space
    into a space; collapse spaces; trim.
-2. **Match phrases:** a category matches if its name or one of its synonyms
-   appears in the guess as whole words (so "a person walking" matches
-   *walk* through its synonym "walking", and "jumping jacks" matches
-   *jumping jacks*).
-3. **Forgive typos, but exact wins:** a guess word that matches no name or
-   synonym exactly may match a single-word synonym of 5 letters or more that
-   is one edit away (one letter added, removed or changed), so "runnig"
-   matches "running" (*run*). A word that matches something exactly is never
-   typo-matched: "mopping" is *sweep*, even though it is one letter from
-   "hopping" (*jump*). Words under 5 letters must be exact.
-4. **Prefer longer phrases:** when one match is part of a longer one ("jump"
+2. **Read each word:** the filler words "a", "an" and "the" are dropped,
+   here and in the names and synonyms, so "bouncing ball" is the same as
+   "bouncing a ball". Every other word is read as its base form: the
+   shortest of the word and the word with an ending taken off ("-ing",
+   "-ed", "-er", "-es", "-s", then perhaps adding an "e" or undoubling the
+   last letter) that is a word in some name or synonym. So "walks",
+   "walked", "walker" and "walking" all read as "walk", "runner" as "run"
+   and "punches" as "punch". Words under 4 letters keep their form ("his"
+   is never "hi"). Irregular forms ("ran", "sat", "threw") are synonyms.
+3. **Forgive typos, but exact wins:** a guess word with no base form may
+   instead be a word of 5 letters or more from a name or synonym that is
+   one edit away (one letter added, removed or changed), so "runnig" reads
+   as "running" (*run*) and "jumpin jacks" as *jumping jacks*. A word that
+   has a base form is never typo-matched: "mopping" is *sweep*, even though
+   it is one letter from "hopping" (*jump*). Words under 5 letters must be
+   exact or a form of a known word.
+4. **Match phrases:** a category matches if its name or one of its synonyms,
+   read the same way, appears in the guess as whole words (so "a person
+   walking" matches *walk*, and "climbs a ladder" matches *climb* through
+   "climbing a ladder").
+5. **Prefer longer phrases:** when one match is part of a longer one ("jump"
    inside "star jump", "bounce" inside "bounce ball"), only the longer one
-   counts, so "star jump" is *jumping jacks*, not *jump*.
-5. **Decide:** the guess is correct if it matches exactly one category and
+   counts, so "star jump" is *jumping jacks*, not *jump*, and "walking with
+   a limp" is *limp*, not *walk*.
+6. **Decide:** the guess is correct if it matches exactly one category and
    that is the clip's category. A guess that matches **two or more**
    categories ("walk or run") is wrong, so listing several answers in one
    guess doesn't work.
 
 Data rules, checked by unit tests whenever `data/categories.json` changes:
 
-- no name or synonym belongs to two categories;
+- no name or synonym, read as in step 2, belongs to two categories;
 - every name and synonym, typed on its own as a guess, matches its own
-  category and no other under steps 1–5 (this catches near-misses like
+  category and no other under steps 1–6 (this catches near-misses like
   "hopping"/"mopping" and phrases hidden inside other phrases).
 
 ---
