@@ -94,10 +94,12 @@ Motion data comes from the
 used in this project was obtained from mocap.cs.cmu.edu. The database was
 created with funding from NSF EIA-0196217.
 
-The clips in `data/clips/` are derived from that database and remain subject
-to CMU's terms: free to use, including in commercial products, but not to be
-resold directly, even in altered form. The MIT license below covers this
-project's own code and documentation, not the CMU data.
+The clips in `data/clips/`, the trial descriptions in
+`pipeline/cmu_index.json` and the demo animation in `docs/demo.webp` are derived
+from that database and remain subject to CMU's terms: free to use, including in
+commercial products, but not to be resold directly, even in altered form. The
+MIT license below covers this project's own code and documentation, not the CMU
+data.
 
 ## Contributing
 
