@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#000000">
+  <title>Skugga</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6'/%3E%3Cg fill='%23fff'%3E%3Ccircle cx='16' cy='6' r='2.2'/%3E%3Ccircle cx='11' cy='12' r='2'/%3E%3Ccircle cx='21' cy='12' r='2'/%3E%3Ccircle cx='16' cy='17' r='2'/%3E%3Ccircle cx='12' cy='26' r='2'/%3E%3Ccircle cx='21' cy='25' r='2'/%3E%3C/g%3E%3C/svg%3E">
+  <link rel="stylesheet" href="play.css">
+</head>
+<body>
+  <main id="app">
+    <header class="top">
+      <h1>Skugga</h1>
+      <p id="round-label" class="muted"></p>
+    </header>
+
+    <!-- Join -->
+    <section id="screen-join" class="screen" hidden>
+      <p class="lead">Name the action before anyone else. The earlier you get it, the more points.</p>
+      <form id="join-form" autocomplete="off">
+        <label for="join-name">Your name</label>
+        <input id="join-name" name="name" maxlength="16" required autocapitalize="words" enterkeyhint="go">
+        <button type="submit">Join</button>
+      </form>
+      <p id="join-error" class="error" role="alert"></p>
+    </section>
+
+    <!-- Lobby -->
+    <section id="screen-lobby" class="screen" hidden>
+      <h2>Players</h2>
+      <p id="lobby-note" class="muted"></p>
+      <button id="start-btn" type="button" hidden>Start</button>
+    </section>
+
+    <!-- Countdown, reveal and answer share the figure -->
+    <section id="screen-play" class="screen" hidden>
+      <div class="stage">
+        <canvas id="canvas" aria-label="Point-light figure"></canvas>
+        <div id="countdown" class="countdown" hidden></div>
+        <div id="answer" class="answer" hidden>
+          <p id="answer-category" class="answer-category"></p>
+          <p id="answer-result"></p>
+        </div>
+      </div>
+      <p id="dots-line" class="dots-line" aria-live="off"></p>
+      <form id="guess-form" autocomplete="off">
+        <input id="guess" name="guess" maxlength="40" placeholder="What are they doing?"
+               autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="send" aria-label="Your guess">
+        <button type="submit">Guess</button>
+      </form>
+      <p id="guess-status" class="guess-status" role="status"></p>
+      <ul id="answer-guesses" class="guesses" hidden></ul>
+      <p id="answer-credit" class="credit" hidden></p>
+    </section>
+
+    <!-- Final -->
+    <section id="screen-final" class="screen" hidden>
+      <h2 id="final-title">Final scores</h2>
+      <button id="again-btn" type="button" hidden>Play again</button>
+      <p id="final-note" class="muted"></p>
+    </section>
+
+    <!-- Scores, shown on every screen once joined -->
+    <ol id="scores" class="scores" hidden></ol>
+
+    <p id="connection" class="error" role="alert" hidden>Reconnecting…</p>
+    <p class="footer muted">Motion data: CMU Graphics Lab Motion Capture Database</p>
+  </main>
+  <script type="module" src="play.js"></script>
+</body>
+</html>

@@ -51,9 +51,6 @@ def static_files(root: Path) -> dict[str, Path]:
         for f in play.rglob("*"):
             if f.is_file() and f.suffix in TYPES:
                 files["/" + f.relative_to(play).as_posix()] = f
-    shared = root / "web" / "js" / "display.js"
-    if shared.is_file():
-        files["/js/display.js"] = shared
     if "/index.html" in files:
         files["/"] = files["/index.html"]
     return files

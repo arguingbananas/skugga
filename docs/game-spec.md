@@ -203,7 +203,7 @@ is the intended level of protection.
 |---|---|---|
 | Server | `server/skugga_server.py` | Standard-library Python (`http.server.ThreadingHTTPServer`). Holds the game in memory behind one lock: one game at a time. Serves the phone page and the JSON API. |
 | Game rules | `server/rules.py` | Guess checking, scoring and round timing as pure functions, so they're unit-tested without a server. |
-| Phone page | `web/play/` | Plain JavaScript modules with no build step. Reuses the viewer's drawing code (`web/js/display.js`). |
+| Phone page | `web/play/` | Plain JavaScript with no build step. Draws the 2D dot tracks the server sends. |
 | Data | `data/clips/`, `data/categories.json` | Read by the server at startup. Phones never fetch these directly during a game. |
 
 ### 6.2 Players and tokens
