@@ -146,6 +146,7 @@ class Game:
         self.total_rounds = min(rounds, len({c.category for c in clips}))
         self.players: list[Player] = []
         self.by_token: dict[str, Player] = {}
+        self.left_names: dict[int, str] = {}   # players whose place was given away
         self._next_id = 1
         self.status = "lobby"
         self.round: Round | None = None
@@ -235,13 +236,23 @@ class Game:
         if any(p.name.casefold() == name.casefold() for p in self.players):
             raise GameError(409, "name_taken")
         if len(self.players) >= MAX_PLAYERS:
-            raise GameError(409, "full")
+            away = [q for q in self.players if q.away(now)]
+            if not away:
+                raise GameError(409, "full")
+            self._remove(min(away, key=lambda q: q.last_seen))
         p = Player(self._next_id, name, secrets.token_urlsafe(16), now, now,
                    waiting=self.status != "lobby")
         self._next_id += 1
         self.players.append(p)
         self.by_token[p.token] = p
         return p
+
+    def _remove(self, p: Player) -> None:
+        """Give an away player's place to someone new. Their name stays in
+        this round's answer; their phone, if it comes back, must join again."""
+        self.players.remove(p)
+        del self.by_token[p.token]
+        self.left_names[p.id] = p.name
 
     def _require_leader(self, now: int, token: object) -> Player:
         p = self.player(token)
@@ -349,7 +360,7 @@ class Game:
                 "deadline": rules.round_deadline(r.t0),
             }
             if show_answer:
-                names = {p.id: p.name for p in self.players}
+                names = {**self.left_names, **{p.id: p.name for p in self.players}}
                 out["answer"] = {
                     "category": r.clip.category,
                     "endReason": r.end_reason,
