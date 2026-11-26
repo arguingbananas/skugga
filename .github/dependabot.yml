@@ -1,4 +1,7 @@
 # Weekly dependency update PRs. Security alerts are enabled separately.
+# Updates are grouped: at most one PR per ecosystem per week, except that
+# major versions get their own PR, since they can need real work (for
+# example puppeteer-core 25 needing Node 22).
 version: 2
 updates:
   - package-ecosystem: npm
@@ -6,8 +9,14 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    groups:
+      npm-minor-and-patch:
+        update-types: [minor, patch]
   - package-ecosystem: github-actions
     directory: /
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    groups:
+      actions-minor-and-patch:
+        update-types: [minor, patch]
