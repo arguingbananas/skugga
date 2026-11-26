@@ -5,6 +5,7 @@
 
 const POLL_MS = 250;
 const TOKEN_KEY = "skugga-token";
+const INPUT_KEY = "skugga-input";   // "type" or "wheel": how this phone guesses
 
 const $ = (id) => document.getElementById(id);
 const el = {
@@ -15,6 +16,7 @@ const el = {
   canvas: $("canvas"), countdown: $("countdown"),
   answer: $("answer"), answerCategory: $("answer-category"), answerResult: $("answer-result"),
   dotsLine: $("dots-line"), guessForm: $("guess-form"), guess: $("guess"), guessStatus: $("guess-status"),
+  wheel: $("wheel"), wheelWord: $("wheel-word"), inputMode: $("input-mode"),
   answerGuesses: $("answer-guesses"), answerCredit: $("answer-credit"),
   finalTitle: $("final-title"), againBtn: $("again-btn"), finalNote: $("final-note"),
   scores: $("scores"), connection: $("connection"),
@@ -31,6 +33,13 @@ function saveToken(token) {
     if (token) localStorage.setItem(TOKEN_KEY, token);
     else localStorage.removeItem(TOKEN_KEY);
   } catch { /* the game still works until the page is reloaded */ }
+}
+
+function loadInputMode() {
+  try { return localStorage.getItem(INPUT_KEY) === "wheel" ? "wheel" : "type"; } catch { return "type"; }
+}
+function saveInputMode(mode) {
+  try { localStorage.setItem(INPUT_KEY, mode); } catch { /* kept until reload */ }
 }
 
 // --- state
@@ -119,11 +128,12 @@ el.againBtn.addEventListener("click", async () => {
 
 el.guessForm.addEventListener("submit", async (e) => {
   e.preventDefault();
-  const text = el.guess.value.trim();
+  const text = inputMode === "wheel" ? wheelChoice() : el.guess.value.trim();
   const round = state?.round;
   if (!text || !round || guessSent) return;
   guessSent = true;
   el.guess.disabled = true;
+  setWheelEnabled(false);
   el.guessForm.querySelector("button").disabled = true;
   const res = await api("/guess", { token, roundId: round.id, guess: text });
   if (res.ok && res.data.correct) {
@@ -135,6 +145,130 @@ el.guessForm.addEventListener("submit", async (e) => {
   }
   poll(true);
 });
+
+// --- the guess wheel: one action at a time, alphabetical, wrapping around.
+// Drag or flick sideways to move through it, or tap its left or right edge;
+// arrow keys and a mouse wheel work too. No keyboard pops up.
+
+const WHEEL_STEP_PX = 40;          // drag distance per action
+let inputMode = loadInputMode();
+let wheelIndex = 0;
+let wheelOffset = 0;               // px the word is dragged off centre
+let wheelEnabled = false;
+let wheelDrag = null;              // { id, startX, lastX, lastT, v, moved }
+let wheelSpin = 0;                 // requestAnimationFrame id of a flick
+
+function choices() { return state?.choices || []; }
+function wheelChoice() { const c = choices(); return c.length ? c[wheelIndex] : ""; }
+
+function drawWheel() {
+  el.wheelWord.textContent = wheelChoice();
+  el.wheelWord.style.transform = `translateX(${wheelOffset}px)`;
+  el.wheelWord.style.opacity = String(1 - Math.min(1, Math.abs(wheelOffset) / WHEEL_STEP_PX) * 0.6);
+  el.wheel.setAttribute("aria-valuetext", wheelChoice());
+  el.wheel.classList.toggle("off", !wheelEnabled);
+}
+
+function stepWheel(n) {
+  const c = choices();
+  if (!c.length) return;
+  wheelIndex = ((wheelIndex + n) % c.length + c.length) % c.length;
+}
+
+/** Move by `dx` px of drag: a step for every WHEEL_STEP_PX (dragging left moves forward). */
+function dragWheel(dx) {
+  wheelOffset += dx;
+  while (wheelOffset <= -WHEEL_STEP_PX / 2) { stepWheel(1); wheelOffset += WHEEL_STEP_PX; }
+  while (wheelOffset >= WHEEL_STEP_PX / 2) { stepWheel(-1); wheelOffset -= WHEEL_STEP_PX; }
+  drawWheel();
+}
+
+function settleWheel() {
+  cancelAnimationFrame(wheelSpin);
+  wheelOffset = 0;
+  drawWheel();
+}
+
+function flickWheel(v) {          // v: px per ms
+  let last = performance.now();
+  const frame = (now) => {
+    const dt = Math.min(50, now - last);
+    last = now;
+    dragWheel(v * dt);
+    v *= Math.pow(0.994, dt);
+    if (Math.abs(v) > 0.05 && wheelEnabled) wheelSpin = requestAnimationFrame(frame);
+    else settleWheel();
+  };
+  cancelAnimationFrame(wheelSpin);
+  wheelSpin = requestAnimationFrame(frame);
+}
+
+function setWheelEnabled(on) {
+  wheelEnabled = on;
+  if (!on) { wheelDrag = null; settleWheel(); }
+  el.wheel.setAttribute("aria-disabled", String(!on));
+  drawWheel();
+}
+
+el.wheel.addEventListener("pointerdown", (e) => {
+  if (!wheelEnabled) return;
+  cancelAnimationFrame(wheelSpin);
+  el.wheel.setPointerCapture(e.pointerId);
+  wheelDrag = { id: e.pointerId, startX: e.clientX, lastX: e.clientX, lastT: performance.now(), v: 0, moved: 0 };
+});
+el.wheel.addEventListener("pointermove", (e) => {
+  const d = wheelDrag;
+  if (!d || e.pointerId !== d.id) return;
+  const now = performance.now();
+  const dx = e.clientX - d.lastX;
+  d.v = 0.7 * d.v + 0.3 * (dx / Math.max(1, now - d.lastT));
+  d.lastX = e.clientX;
+  d.lastT = now;
+  d.moved = Math.max(d.moved, Math.abs(e.clientX - d.startX));
+  dragWheel(dx);
+});
+const endDrag = (e) => {
+  const d = wheelDrag;
+  if (!d || e.pointerId !== d.id) return;
+  wheelDrag = null;
+  if (d.moved < 6) {                // a tap: left edge goes back, the rest forward
+    const r = el.wheel.getBoundingClientRect();
+    stepWheel(e.clientX < r.left + r.width / 3 ? -1 : 1);
+    settleWheel();
+  } else if (Math.abs(d.v) > 0.3 && performance.now() - d.lastT < 80) {
+    flickWheel(d.v);
+  } else {
+    settleWheel();
+  }
+};
+el.wheel.addEventListener("pointerup", endDrag);
+el.wheel.addEventListener("pointercancel", endDrag);
+el.wheel.addEventListener("keydown", (e) => {
+  if (!wheelEnabled) return;
+  const step = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+  if (step) { e.preventDefault(); stepWheel(step); settleWheel(); }
+  else if (e.key === "Enter") { e.preventDefault(); el.guessForm.requestSubmit(); }
+});
+el.wheel.addEventListener("wheel", (e) => {
+  if (!wheelEnabled) return;
+  e.preventDefault();
+  stepWheel(Math.sign(e.deltaY || e.deltaX));
+  settleWheel();
+}, { passive: false });
+
+function applyInputMode() {
+  const wheel = inputMode === "wheel";
+  el.wheel.hidden = !wheel;
+  el.guess.hidden = wheel;
+  el.inputMode.textContent = wheel ? "Type instead" : "Use the wheel instead";
+}
+el.inputMode.addEventListener("click", () => {
+  inputMode = inputMode === "wheel" ? "type" : "wheel";
+  saveInputMode(inputMode);
+  applyInputMode();
+  if (inputMode === "wheel") el.wheel.focus({ preventScroll: true });
+});
+applyInputMode();
 
 function showGuessStatus(text, kind) {
   el.guessStatus.textContent = text;
@@ -260,11 +394,15 @@ function render() {
     guessSent = false;
     el.guess.value = "";
     showGuessStatus("");
+    wheelIndex = Math.floor(Math.random() * Math.max(1, choices().length));   // no hint in where it starts
+    settleWheel();
   }
   const canGuess = s.status === "reveal" && !me.guessed && !me.waiting && !guessSent;
   el.guess.disabled = !canGuess;
   el.guessForm.querySelector("button").disabled = !canGuess;
+  if (canGuess !== wheelEnabled) setWheelEnabled(canGuess);
   el.guessForm.hidden = s.status === "answer";
+  el.inputMode.hidden = s.status === "answer";
   if (me.waiting) showGuessStatus("Game in progress: you'll play from the next game.", "");
 
   el.countdown.hidden = s.status !== "countdown";

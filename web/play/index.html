@@ -47,8 +47,14 @@
       <form id="guess-form" autocomplete="off">
         <input id="guess" name="guess" maxlength="40" placeholder="What are they doing?"
                autocapitalize="none" autocorrect="off" spellcheck="false" enterkeyhint="send" aria-label="Your guess">
+        <div id="wheel" class="wheel" role="spinbutton" tabindex="0" aria-label="Your guess: swipe to choose" hidden>
+          <span class="wheel-arrow" aria-hidden="true">‹</span>
+          <span id="wheel-word" class="wheel-word"></span>
+          <span class="wheel-arrow" aria-hidden="true">›</span>
+        </div>
         <button type="submit">Guess</button>
       </form>
+      <button id="input-mode" type="button" class="link-btn"></button>
       <p id="guess-status" class="guess-status" role="status"></p>
       <ul id="answer-guesses" class="guesses" hidden></ul>
       <p id="answer-credit" class="credit" hidden></p>

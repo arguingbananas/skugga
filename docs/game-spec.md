@@ -155,6 +155,9 @@ dot count is what scores.
 ## 4. Checking guesses
 
 The server checks guesses; phones never know the answer before the round ends.
+Every phone gets the list of all actions for the guess wheel (section 7); it
+is the same in every state, so it says nothing about the round. A wheel
+guess is an action's exact name and is checked like any other guess.
 
 1. **Normalize:** lowercase; turn anything that isn't a letter, digit or space
    into a space; collapse spaces; trim.
@@ -302,7 +305,14 @@ password. The README will say so.
 3. **Countdown:** "Round 3 of 10", counting down 3, 2, 1.
 4. **Reveal:** the dots on black; "9 / 31 dots" and the points a correct guess
    would score now; the guess box (disabled once you've guessed); the
-   scoreboard with ✗ next to players who are out.
+   scoreboard with ✗ next to players who are out. Each phone guesses either
+   by typing or with the **guess wheel**, switched with a link under the
+   guess box and remembered on that phone. The wheel shows one action at a
+   time from the alphabetical list of all actions, wrapping around and
+   starting at a random one each round; a sideways drag or flick moves it
+   (a tap on its left or right edge, or an arrow key, moves one step), and
+   Guess sends the action showing. It needs no keyboard, so nothing covers
+   the figure.
 5. **Answer:** the category, who won and how many points, everyone's guesses,
    and the clip's credit line.
 6. **Final:** the scoreboard, and Play again for the leader.

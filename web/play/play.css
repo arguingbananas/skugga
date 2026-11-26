@@ -81,6 +81,26 @@ button:disabled { opacity: 0.45; cursor: default; }
 .dots-line strong { color: var(--accent); }
 
 #guess-form { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+
+/* The guess wheel: one action at a time; swipe sideways (or tap an edge) to move. */
+.wheel {
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center;
+  min-width: 0; height: 52px; overflow: hidden;
+  background: var(--panel); border: 1px solid var(--line); border-radius: 10px;
+  touch-action: none; user-select: none; -webkit-user-select: none; cursor: grab;
+}
+.wheel:active { cursor: grabbing; }
+.wheel.off { opacity: 0.5; cursor: default; }
+.wheel-arrow { padding: 0 12px; color: var(--muted); font-size: 22px; }
+.wheel-word {
+  text-align: center; font-size: 20px; font-weight: 600; white-space: nowrap;
+  overflow: hidden; text-overflow: ellipsis; text-transform: capitalize;
+}
+.link-btn {
+  display: block; margin: 6px 0 0 auto; padding: 4px 2px;
+  background: none; border: none; color: var(--muted); font-size: 14px; font-weight: 400;
+  text-decoration: underline;
+}
 .guess-status { min-height: 1.4em; margin: 8px 2px; }
 .guess-status.good { color: var(--good); }
 .guess-status.bad { color: var(--bad); }
