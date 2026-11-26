@@ -57,7 +57,7 @@ Starting settings can go in the URL, e.g.
 `/web/?dots=5&noise=30&inv=1&hide=1#13_17` (see `applyQuery` in
 `web/js/viewer.js`).
 
-Tests (Node 18+ and Chromium):
+Tests (Node 22.12+ and Chromium):
 
 ```sh
 npm install          # dev dependency: puppeteer-core (uses your system Chromium)
