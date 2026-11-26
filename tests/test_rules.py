@@ -130,7 +130,41 @@ class TestGuessChecker(unittest.TestCase):
 
     def test_word_inside_other_word_does_not_match(self):
         self.assertMatches("walkie talkie", [])   # "walk" only as a whole word
-        self.assertMatches("boxer", [])            # not "box"/"boxing" (one edit from neither, too short)
+        self.assertMatches("this", [])            # not "hi" + "s"
+
+    def test_word_forms(self):
+        for guess, category in [("walks", "walk"), ("walked", "walk"), ("walker", "walk"),
+                                ("runs", "run"), ("runner", "run"), ("jogger", "run"),
+                                ("jumps", "jump"), ("kicks", "kick"), ("waves", "wave"),
+                                ("dancer", "dance"), ("boxer", "boxing"), ("punches", "boxing"),
+                                ("hopped", "jump"), ("golfer", "golf"), ("tiptoes", "sneak")]:
+            self.assertMatches(guess, [category])
+
+    def test_word_forms_in_phrases(self):
+        self.assertMatches("climbs a ladder", ["climb"])
+        self.assertMatches("doing cartwheels", ["cartwheel"])
+        self.assertMatches("goose stepping", ["march"])
+
+    def test_short_words_keep_their_form(self):
+        self.assertMatches("his", [])             # under 4 letters: never "hi"
+        self.assertMatches("hi", ["wave"])
+
+    def test_filler_words_ignored(self):
+        self.assertMatches("bouncing ball", ["basketball"])
+        self.assertMatches("climbing the ladder", ["climb"])
+        self.assertMatches("the", [])
+
+    def test_typo_inside_a_phrase(self):
+        self.assertMatches("jumpin jacks", ["jumping jacks"])
+
+    def test_irregular_forms_are_synonyms(self):
+        for guess, category in [("ran", "run"), ("sat", "sit"), ("threw", "throw"),
+                                ("drank", "drink"), ("snuck", "sneak")]:
+            self.assertMatches(guess, [category])
+
+    def test_specific_phrase_beats_its_parts(self):
+        self.assertMatches("walking with a limp", ["limp"])
+        self.assertMatches("skipping", ["jump"])   # not a typo of "sipping" (drink)
 
     def test_long_guesses_are_cut(self):
         self.assertMatches("x " * 30 + "walk", [])
@@ -140,10 +174,14 @@ class TestCategoryData(unittest.TestCase):
     """Rules for data/categories.json (spec section 4)."""
 
     def test_no_term_in_two_categories(self):
+        # Compared as the checker reads them: base forms, no filler words.
+        check = GuessChecker(CATEGORIES)
         seen = {}
         for category, synonyms in CATEGORIES.items():
             for term in [category, *synonyms]:
-                key = normalize(term)
+                key = check.base_words(normalize(term).split())
+                if seen.get(key) == category:
+                    continue                  # "jacks" and "jack": the same term
                 self.assertNotIn(key, seen, f"{term!r} is in {seen.get(key)!r} and {category!r}")
                 seen[key] = category
 

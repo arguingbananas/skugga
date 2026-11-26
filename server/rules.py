@@ -71,6 +71,9 @@ def round_end_reason(now_ms: int, t0_ms: int, *, answered: bool, players_in: int
 
 MAX_GUESS_CHARS = 40
 TYPO_MIN_LETTERS = 5
+FORM_MIN_LETTERS = 4
+FILLER_WORDS = frozenset({"a", "an", "the"})
+SUFFIXES = ("ing", "ed", "er", "es", "s")
 
 _NOT_WORD = re.compile(r"[^a-z0-9 ]+")
 _SPACES = re.compile(r" +")
@@ -96,6 +99,25 @@ def within_one_edit(a: str, b: str) -> bool:
     return any(long_[:i] + long_[i + 1:] == short for i in range(len(long_)))
 
 
+def word_forms(word: str):
+    """The word, then what it might be with an ending taken off: "walks" ->
+    "walk", "dancer" -> "dance", "running" -> "run". Words under
+    FORM_MIN_LETTERS letters, and bases under 3, are left alone ("his" is
+    never "hi")."""
+    yield word
+    if len(word) < FORM_MIN_LETTERS:
+        return
+    for suffix in SUFFIXES:
+        if word.endswith(suffix):
+            base = word[:-len(suffix)]
+            if len(base) < 3:
+                continue
+            yield base
+            yield base + "e"
+            if base[-1] == base[-2]:
+                yield base[:-1]
+
+
 @dataclass(frozen=True)
 class _Match:
     start: int  # first guess word covered
@@ -112,38 +134,54 @@ class GuessChecker:
     """Checks guesses against the categories and their synonyms."""
 
     def __init__(self, categories: dict[str, list[str]]):
-        # Every name and synonym, as a tuple of normalized words.
+        raw_terms = [(normalize(term).split(), category)
+                     for category, synonyms in categories.items()
+                     for term in [category, *synonyms]]
+        # Every word that appears in a name or synonym, as written.
+        self.known_words = {w for words, _ in raw_terms for w in words}
+        # Each name and synonym as a tuple of base words (see base()),
+        # without filler words. Duplicates within a category are dropped.
         self.terms: list[tuple[tuple[str, ...], str]] = []
-        for category, synonyms in categories.items():
-            for term in [category, *synonyms]:
-                words = tuple(normalize(term).split())
-                if words:
-                    self.terms.append((words, category))
-        # Words that appear anywhere in a term: these are never typo-matched,
-        # so an exact word always wins ("mopping" is sweep, not "hopping").
-        self.known_words = {w for words, _ in self.terms for w in words}
-        # Single-word terms long enough to forgive one typo.
-        self.typo_terms = [(words[0], category) for words, category in self.terms
-                           if len(words) == 1 and len(words[0]) >= TYPO_MIN_LETTERS]
+        for words, category in raw_terms:
+            key = (self.base_words(words), category)
+            if key[0] and key not in self.terms:
+                self.terms.append(key)
+        # Known words long enough to forgive one typo.
+        self.typo_words = sorted(w for w in self.known_words if len(w) >= TYPO_MIN_LETTERS)
         self.categories = list(categories)
+
+    def base(self, word: str) -> str | None:
+        """The shortest form of a word (word_forms) that is a known word, so
+        "walks", "walking" and "walker" all read as "walk". None if no form
+        is known."""
+        known = [f for f in word_forms(word) if f in self.known_words]
+        return min(known, key=len) if known else None
+
+    def base_words(self, words: list[str]) -> tuple[str, ...]:
+        return tuple(self.base(w) or w for w in words if w not in FILLER_WORDS)
+
+    def _readings(self, word: str) -> set[str]:
+        """What a guess word can stand for, as base words: its own base if it
+        has one (exact wins, so it is never typo-matched), otherwise the bases
+        of known words one typo away, if it is long enough. Empty if none."""
+        b = self.base(word)
+        if b is not None:
+            return {b}
+        if len(word) < TYPO_MIN_LETTERS:
+            return set()
+        return {self.base(w) for w in self.typo_words if within_one_edit(word, w)}
 
     def matches(self, guess: str) -> set[str]:
         """The categories a guess names, after the spec's rules."""
-        words = normalize(guess[:MAX_GUESS_CHARS]).split()
+        words = [w for w in normalize(guess[:MAX_GUESS_CHARS]).split() if w not in FILLER_WORDS]
+        readings = [self._readings(w) for w in words]
         found: list[_Match] = []
-        # Exact phrases, as whole words.
+        # Names and synonyms, as whole words, in any of their forms.
         for term, category in self.terms:
             n = len(term)
             for i in range(len(words) - n + 1):
-                if tuple(words[i:i + n]) == term:
+                if all(term[k] in readings[i + k] for k in range(n)):
                     found.append(_Match(i, i + n, category))
-        # One typo, only for words that match nothing exactly.
-        for i, word in enumerate(words):
-            if word in self.known_words:
-                continue
-            for term, category in self.typo_terms:
-                if within_one_edit(word, term):
-                    found.append(_Match(i, i + 1, category))
         # A match inside a longer one doesn't count ("jump" in "star jump").
         kept = [m for m in found if not any(m.inside(o) for o in found)]
         return {m.category for m in kept}
