@@ -275,20 +275,6 @@ category = "pick up"
 id = "26_09"
 category = "pick up"
 
-# --- carry
-[[clip]]
-id = "70_01"
-category = "carry"
-[[clip]]
-id = "70_05"
-category = "carry"
-[[clip]]
-id = "70_12"
-category = "carry"
-[[clip]]
-id = "111_36"
-category = "carry"
-
 # --- stretch (and yawn: CMU has no yawn-only trials)
 [[clip]]
 id = "42_01"

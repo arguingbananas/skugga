@@ -21,7 +21,6 @@
     "limp":          ["limping", "hobble", "hobbling", "injured", "hurt", "wounded", "hurt leg", "walk with a limp", "broken leg"],
     "drink":         ["drinking", "sip", "sipping", "soda", "bottle", "drink water", "chug", "drank"],
     "pick up":       ["picking up", "pick", "picking", "lift", "lifting", "lift box", "bend over", "bending over", "bend down", "bending down", "pick up box", "grab", "grabbing", "fetch"],
-    "carry":         ["carrying", "suitcase", "luggage", "bag", "carry bag", "carry suitcase", "carry box", "holding", "lug", "lugging", "haul", "hauling", "tote", "briefcase", "walk with a suitcase", "walk with a bag", "walk with a box"],
     "stretch":       ["stretching", "yawn", "yawning", "warm up", "warming up", "yoga", "tired", "sleepy", "limber up", "loosen up"],
     "stairs":        ["stair", "staircase", "steps", "upstairs", "downstairs", "climb stairs", "climbing stairs", "walk up stairs", "walking up stairs", "going upstairs", "go upstairs", "step up", "walk upstairs", "walk downstairs", "walk down stairs"],
     "wash window":   ["wash windows", "washing window", "washing windows", "washing", "window", "windows", "wipe", "wiping", "wipe window", "clean window", "cleaning window", "cleaning windows", "squeegee", "polish", "polishing", "wax on", "window cleaning", "window washing"],
