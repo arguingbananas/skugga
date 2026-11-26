@@ -105,7 +105,10 @@ If a phone reloads the page or drops off Wi-Fi briefly, it gets its place and
 score back (section 6.2). A player whose phone hasn't checked in for
 **30 seconds** is shown as away and doesn't count toward "every player has
 guessed wrong". If the leader is away, the next player to have joined
-becomes the leader.
+becomes the leader. An away player keeps their place until the game is
+full and someone new joins: the newcomer then takes the place of the
+player who has been away longest. That player's name stays in the current
+round's answer, and their phone, if it comes back, shows the join screen.
 
 ---
 
