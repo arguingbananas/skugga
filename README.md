@@ -17,16 +17,19 @@ just a handful of moving dots placed on the joints (Johansson, 1973).
 ## Concept
 
 Each round plays a motion-capture clip as a point-light display. It starts with
-as little information as possible, and more of the figure is revealed over time.
-The first player to correctly name the action scores a point.
+as little information as possible, a single moving dot, and more of the
+figure's joints appear over about 20 seconds. The first player to name the
+action scores, and the earlier they get it, the more points they score.
 
-The first version is played around one shared screen. Players type guesses as
-free text, and synonyms count ("jog" for *run*, "tiptoe" for *sneak*). The
-actions are broad categories: walk, run, jump, dance, boxing, kick, climb, sit,
-throw, basketball, jumping jacks, cartwheel, march, sneak, sweep, wave, golf,
-limp and drink.
+Everyone plays on their own phone: one player runs a small server on a computer,
+and the others join from their phones' browsers on the same Wi-Fi. Guesses are
+free text, and synonyms count ("jog" for *run*, "tiptoe" for *sneak*). Each
+player gets one guess per clip. The actions are broad categories: walk, run,
+jump, dance, boxing, kick, climb, sit, throw, basketball, jumping jacks,
+cartwheel, march, sneak, sweep, wave, golf, limp and drink.
 
-Game mechanics are still being designed.
+The rules and design are in [docs/game-spec.md](docs/game-spec.md). The game
+itself is being built; the clip viewer below works today.
 
 ## Repository layout
 
@@ -40,7 +43,7 @@ Game mechanics are still being designed.
 | `web/` | Clip viewer (static site; `web/js/display.js` is the reusable display model) |
 | `tests/` | Headless-browser smoke test for the viewer |
 | `tools/` | Local static server, the README demo renderer, and the actionlint installer |
-| `docs/` | README media |
+| `docs/` | The game specification, and README media |
 
 ## Viewer
 
