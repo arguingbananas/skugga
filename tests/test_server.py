@@ -12,6 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "server"))
 
+import qr  # noqa: E402
 import rules  # noqa: E402
 from game import COUNTDOWN_MS, Game, load_clips  # noqa: E402
 from skugga_server import Server, host_allowed  # noqa: E402
@@ -135,6 +136,18 @@ class TestStaticFiles(ServerTest):
                      "/web/play/index.html", "/data/clips/index.json", "/data/categories.json",
                      "/server/game.py", "//etc/passwd"]:
             self.assertEqual(self.request("GET", path)[0], 404, path)
+
+
+class TestJoinQr(ServerTest):
+    def test_no_qr_without_an_address(self):
+        self.assertEqual(self.request("GET", "/join.svg")[0], 404)
+
+    def test_qr_served_when_there_is_an_address(self):
+        self.server.join_svg = qr.svg(qr.encode("http://192.168.1.20:8765/")).encode()
+        status, body, resp = self.request("GET", "/join.svg")
+        self.assertEqual((status, resp.getheader("Content-Type")), (200, "image/svg+xml"))
+        self.assertTrue(body.startswith(b"<svg "))
+        self.assertEqual(self.request("GET", "/join.svg", host="attacker.example")[0], 403)
 
 
 class TestGameOverHttp(ServerTest):
