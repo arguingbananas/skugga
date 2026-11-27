@@ -256,6 +256,7 @@ at most 1 KB.
 | Method and path | Body | Does |
 |---|---|---|
 | `GET /` | | The phone page |
+| `GET /join.svg` | | A QR code of the address phones open (404 if the computer has no network address) |
 | `GET /state?token=…` | | The game as this player should see it (section 6.5) |
 | `POST /join` | `{name, token?}` | Joins the lobby, or rejoins with a stored token; returns `{token, playerId}` |
 | `POST /start` | `{token}` | Leader only: starts the game |
@@ -290,8 +291,8 @@ the server through a player's browser. It:
   the computer's own name, which stops other websites from reaching it
   through the player's browser (DNS rebinding);
 - shows names and guesses with `textContent`, never as HTML;
-- serves only the phone page, its scripts, and the API, not the rest of the
-  repository.
+- serves only the phone page, its scripts, the join QR code and the API, not
+  the rest of the repository.
 
 It is still meant for a trusted home network: there's no HTTPS and no
 password. The README will say so.
@@ -301,7 +302,10 @@ password. The README will say so.
 ## 7. Phone screens
 
 1. **Join:** name box and Join button.
-2. **Lobby:** the players so far; the leader sees Start.
+2. **Lobby:** the players so far; the leader sees Start. A QR code of the
+   game's address, captioned "Scan to invite others", lets anyone already in
+   bring in another phone. The server also prints the same QR code in the
+   terminal when it starts, under the address.
 3. **Countdown:** "Round 3 of 10", counting down 3, 2, 1.
 4. **Reveal:** the dots on black; "9 / 31 dots" and the points a correct guess
    would score now; the guess box (disabled once you've guessed); the
@@ -345,6 +349,5 @@ All of these run in CI on every pull request.
 
 - Harder modes: distractor dots, upside-down start, faster reveal.
 - A shared-screen mode (TV shows the dots; phones only for guessing).
-- A QR code for joining.
 - Curating clips: dropping or trimming ambiguous ones before relying on early
   guesses (section 2.4 makes a bad clip feel unfair).

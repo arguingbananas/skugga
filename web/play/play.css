@@ -52,6 +52,9 @@ button:disabled { opacity: 0.45; cursor: default; }
 #join-form { display: grid; gap: 10px; }
 #join-form button { width: 100%; }
 #start-btn, #again-btn { width: 100%; margin-top: 12px; }
+.join-qr { margin: 24px 0 0; text-align: center; }
+.join-qr[hidden] { display: none; }
+.join-qr img { display: block; margin: 0 auto 6px; width: 160px; height: 160px; border-radius: 4px; }
 
 .stage {
   position: relative;

@@ -13,6 +13,7 @@ ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "server"))
 
 import game  # noqa: E402
+import qr  # noqa: E402
 import rules  # noqa: E402
 from skugga_server import Handler, Server  # noqa: E402
 
@@ -40,6 +41,7 @@ def main() -> None:
     g = game.Game(game.load_clips(ROOT / "data"),
                   rules.load_categories(ROOT / "data" / "categories.json"), rounds=ROUNDS)
     server = Server(("127.0.0.1", 0), g)
+    server.join_svg = qr.svg(qr.encode(f"http://127.0.0.1:{server.server_address[1]}/")).encode()
     server.RequestHandlerClass = TestHandler
     print(server.server_address[1], flush=True)
     try:

@@ -125,6 +125,8 @@ try {
     await ana.waitForSelector("#start-btn:not([disabled])", { visible: true });
     assert.equal(await visible(ben, "#start-btn"), false, "Ben shouldn't see Start");
     assert.match(await text(ben, "#lobby-note"), /Waiting for Ana/);
+    assert.equal(await visible(ben, "#join-qr"), true, "no join QR code in the lobby");
+    assert.ok(await ben.$eval("#join-qr-img", (i) => i.complete && i.naturalWidth > 0), "the join QR didn't load");
     await shot(ana, "1-lobby");
     await ana.click("#start-btn");
     await until((t) => t.status === "countdown", "the countdown");

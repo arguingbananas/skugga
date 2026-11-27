@@ -42,9 +42,9 @@ start the game server (below) and open the address it prints on each phone.
 | `pipeline/clips.toml` | Which CMU trials become clips, and their categories |
 | `pipeline/cmu_index.json` | Index of all 2,379 CMU trials with descriptions, for choosing clips |
 | `pipeline/*.py` | The data pipeline (Python 3.11+, standard library only) |
-| `server/` | The game server: `rules.py` (guessing, timing, scoring), `game.py` (players and rounds), `skugga_server.py` (HTTP) |
+| `server/` | The game server: `rules.py` (guessing, timing, scoring), `game.py` (players and rounds), `skugga_server.py` (HTTP), `qr.py` (QR codes for the join address) |
 | `web/` | Clip viewer (static site; `web/js/display.js` is the reusable display model) |
-| `tests/` | Unit tests for the rules, game and server, and a headless-browser smoke test for the viewer |
+| `tests/` | Unit tests for the rules, game, server and QR encoder, and a headless-browser smoke test for the viewer |
 | `tools/` | Local static server, the README demo renderer, the actionlint installer and the shellcheck runner |
 | `docs/` | The game specification, and README media |
 
@@ -54,8 +54,9 @@ start the game server (below) and open the address it prints on each phone.
 npm run game         # or: python3 server/skugga_server.py [port]   (default 8765)
 ```
 
-It prints an address to open on each phone (same Wi-Fi); everyone enters a
-name, and the first player to join starts the game. The server assumes a
+It prints an address to open on each phone (same Wi-Fi), with a QR code of it
+to scan; the lobby shows the same QR code so anyone already in can invite
+another phone. Everyone enters a name, and the first player to join starts the game. The server assumes a
 trusted home network: no HTTPS, no password. It gives each player a token so
 no phone can act as another, accepts only small JSON requests, and refuses
 requests addressed to other host names. See

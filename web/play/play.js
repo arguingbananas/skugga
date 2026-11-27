@@ -12,7 +12,7 @@ const el = {
   roundLabel: $("round-label"),
   screens: { join: $("screen-join"), lobby: $("screen-lobby"), play: $("screen-play"), final: $("screen-final") },
   joinForm: $("join-form"), joinName: $("join-name"), joinError: $("join-error"),
-  lobbyNote: $("lobby-note"), startBtn: $("start-btn"),
+  lobbyNote: $("lobby-note"), startBtn: $("start-btn"), joinQr: $("join-qr"),
   canvas: $("canvas"), countdown: $("countdown"),
   answer: $("answer"), answerCategory: $("answer-category"), answerResult: $("answer-result"),
   dotsLine: $("dots-line"), guessForm: $("guess-form"), guess: $("guess"), guessStatus: $("guess-status"),
@@ -338,6 +338,13 @@ function fetchTracks() {
       .catch(() => {})
       .finally(() => inFlight.delete(key));
   }
+}
+
+// The server serves no QR code when it has no network address to show.
+{
+  const img = $("join-qr-img");
+  img.addEventListener("error", () => { el.joinQr.hidden = true; });
+  if (img.complete && !img.naturalWidth) el.joinQr.hidden = true;   // failed before this ran
 }
 
 // --- rendering

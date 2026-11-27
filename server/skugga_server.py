@@ -9,7 +9,8 @@ It assumes a trusted home network: no HTTPS and no password. Within that, it
 keeps players from acting as each other (each player has a token), accepts
 only small JSON POSTs, refuses requests whose Host header isn't an address or
 this computer's name (so other websites can't reach it through a player's
-browser), and serves only the phone page, its scripts and the API. See
+browser), and serves only the phone page, its scripts, the join QR code and
+the API. See
 docs/game-spec.md, section 6.6.
 """
 from __future__ import annotations
@@ -26,6 +27,7 @@ from pathlib import Path
 from urllib.parse import parse_qs, urlsplit
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
+import qr  # noqa: E402
 import rules  # noqa: E402
 from game import Game, GameError, load_clips  # noqa: E402
 
@@ -75,8 +77,12 @@ def host_allowed(host_header: str | None, own_names: set[str]) -> bool:
 class Server(ThreadingHTTPServer):
     daemon_threads = True
 
-    def __init__(self, address, game: Game, *, clock=now_ms, root: Path = ROOT):
+    def __init__(self, address, game: Game, *, clock=now_ms, root: Path = ROOT,
+                 join_url: str | None = None):
         super().__init__(address, Handler)
+        # The QR code for the phones' address, shown in the lobby so players
+        # can invite others; None when there's no network address to show.
+        self.join_svg = qr.svg(qr.encode(join_url)).encode() if join_url else None
         self.game = game
         self.clock = clock
         self.lock = threading.Lock()
@@ -176,6 +182,10 @@ class Handler(BaseHTTPRequestHandler):
                     track = g.track(now, q.get("token"), m.group(1), int(m.group(2)))
                 self._json({"marker": int(m.group(2)), "track": track})
                 return
+            if path == "/join.svg" and self.server.join_svg:
+                self._headers(200, TYPES[".svg"], len(self.server.join_svg))
+                self.wfile.write(self.server.join_svg)
+                return
         except GameError as e:
             self._error(e.status, e.code)
             return
@@ -242,14 +252,16 @@ def main(argv: list[str]) -> int:
     port = int(argv[0]) if argv else DEFAULT_PORT
     clips = load_clips(ROOT / "data")
     categories = rules.load_categories(ROOT / "data" / "categories.json")
-    server = Server(("0.0.0.0", port), Game(clips, categories))
+    lan = lan_address()
+    join_url = f"http://{lan}:{port}/" if lan else None
+    server = Server(("0.0.0.0", port), Game(clips, categories), join_url=join_url)
     if "/" not in server.files:
         print("Note: the phone page (web/play/) isn't built yet; only the API works.")
     print(f"Skugga: {len(clips)} clips, {server.game.total_rounds} rounds per game.")
     print(f"  On this computer: http://localhost:{port}/")
-    lan = lan_address()
-    if lan:
-        print(f"  On your phones:   http://{lan}:{port}/   (same Wi-Fi)")
+    if join_url:
+        print(f"  On your phones:   {join_url}   (same Wi-Fi), or scan:")
+        print(qr.terminal(qr.encode(join_url), color=sys.stdout.isatty()))
     print("Ctrl+C to stop.")
     try:
         server.serve_forever()
